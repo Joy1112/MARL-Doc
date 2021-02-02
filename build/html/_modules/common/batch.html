@@ -1,0 +1,1370 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>common.batch &mdash; MARL v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MARL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">common</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/modules.html">common</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MARL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>common.batch</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for common.batch</h1><div class="highlight"><pre>
+<span></span><span class="c1"># We implemented this code with reference to git@github:thu-ml/tianshou.git/tianshou/data/batch.py</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Collection</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">KeysView</span><span class="p">,</span> <span class="n">ValuesView</span><span class="p">,</span> <span class="n">ItemsView</span>
+
+
+<span class="c1"># Note: the np.ndarray here should be 1-D array with np.object type.</span>
+<span class="n">BatchSet</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s1">&#39;Batch&#39;</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="s1">&#39;Batch&#39;</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="_assertKeysType"><a class="viewcode-back" href="../../common/common.html#common.batch._assertKeysType">[docs]</a><span class="k">def</span> <span class="nf">_assertKeysType</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="nb">any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assert the given keys are string types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        keys: any</span>
+<span class="sd">            The given keys from the dict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;keys should all be string, but got </span><span class="si">{</span><span class="n">keys</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="_isBatchSet"><a class="viewcode-back" href="../../common/common.html#common.batch._isBatchSet">[docs]</a><span class="k">def</span> <span class="nf">_isBatchSet</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the data is BatchSet.</span>
+
+<span class="sd">    Batch set is a list/tuple of dict/Batch objects, or 1-D np.ndarray with np.object type,</span>
+<span class="sd">    where each element is a dict/Batch object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: any</span>
+<span class="sd">            The data which needs to be checked.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        is_batch_set: bool</span>
+<span class="sd">            Whether the data is a batch set or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_batch_set</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+            <span class="n">is_batch_set</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+        <span class="c1"># Note: ``for e in data`` will just unpack the first dimension,</span>
+        <span class="c1"># but data.tolist() will flatten ndarray of objects, so do not use data.tolist()</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">data</span><span class="p">):</span>
+            <span class="n">is_batch_set</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">is_batch_set</span></div>
+
+
+<div class="viewcode-block" id="_isNumber"><a class="viewcode-back" href="../../common/common.html#common.batch._isNumber">[docs]</a><span class="k">def</span> <span class="nf">_isNumber</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the value is a number.</span>
+<span class="sd">    </span>
+<span class="sd">    a) isinstance(value, Number) checks 1, 1.0, np.int(1), np.float(1.0), etc.</span>
+<span class="sd">    b) isinstance(value, np.number) checks np.int32(1), np.float64(1.0), etc.</span>
+<span class="sd">    c) isinstance(value, np.bool_) checks np.bool_(True), etc.</span>
+<span class="sd">    d) similar to np.isscalar but np.isscalar(&#39;st&#39;) returns True</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        v: any</span>
+<span class="sd">            The value to convert.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        is_number: bool</span>
+<span class="sd">            Whether the value is a number or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="_isScalar"><a class="viewcode-back" href="../../common/common.html#common.batch._isScalar">[docs]</a><span class="k">def</span> <span class="nf">_isScalar</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the value is a scalar.</span>
+
+<span class="sd">    a) python bool object, number object: isinstance(value, Number)</span>
+<span class="sd">    b) numpy scalar: isinstance(value, np.generic)</span>
+<span class="sd">    c) python object rather than dict / Batch / tensor</span>
+<span class="sd">    d) the check of dict / Batch is omitted because this only checks a value and a dict / Batch will eventually</span>
+<span class="sd">       check their values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span></div>
+
+
+<div class="viewcode-block" id="_convertToArray"><a class="viewcode-back" href="../../common/common.html#common.batch._convertToArray">[docs]</a><span class="k">def</span> <span class="nf">_convertToArray</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the value to np.ndarray with correct type.</span>
+<span class="sd">    </span>
+<span class="sd">    Convert to np.object data type if neither bool nor number. Raises an exception if array&#39;s elements are tensors themself</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        v: any</span>
+<span class="sd">            The value to convert.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        v_array: np.ndarray</span>
+<span class="sd">            The converted value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># here when v is a scalar, we use [v]</span>
+    <span class="c1"># if _isScalar(v):</span>
+    <span class="c1">#     v_array = np.asanyarray([v])</span>
+    <span class="c1"># else:</span>
+    <span class="n">v_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">v_array</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span>
+        <span class="n">v_array</span> <span class="o">=</span> <span class="n">v_array</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">v_array</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+        <span class="c1"># scalar ndarray with np.object data type is very annoying</span>
+        <span class="c1"># a=np.array([np.array({}, dtype=object), np.array({}, dtype=object)])</span>
+        <span class="c1"># a is not array([{}, {}], dtype=object), and a[0]={} results in</span>
+        <span class="c1"># something very strange:</span>
+        <span class="c1"># array([{}, array({}, dtype=object)], dtype=object)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">v_array</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="n">v_array</span> <span class="o">=</span> <span class="n">v_array</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Numpy arrays of tensors are not supported yet.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v_array</span></div>
+
+
+<div class="viewcode-block" id="_createValue"><a class="viewcode-back" href="../../common/common.html#common.batch._createValue">[docs]</a><span class="k">def</span> <span class="nf">_createValue</span><span class="p">(</span><span class="n">inst</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Batch</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a new Batch or numpy.ndarray or torch.Tensor to receive the data from batches.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        inst: any</span>
+<span class="sd">            The instance of the data from the batches.</span>
+<span class="sd">        size: int</span>
+<span class="sd">            The target size of the var.</span>
+<span class="sd">        stack: bool, optional</span>
+<span class="sd">            whether to stack or to concatenate, defaults to True.</span>
+<span class="sd">            E.g. if inst has shape of (3, 5), size = 10, stack=True returns an np.ndarry</span>
+<span class="sd">            with shape of (10, 3, 5), otherwise (10, 5)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        var_with_shape: Batch or np.ndarray or torch.Tensor</span>
+<span class="sd">            The new variable with size to store the data from the batches.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_scalar</span> <span class="o">=</span> <span class="n">_isScalar</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+
+    <span class="c1"># should never hit since it has already checked in Batch.cat_().</span>
+    <span class="c1"># here we do not consider scalar types, following the behavior of numpy which does not</span>
+    <span class="c1"># support concatenation of zero-dimensional arrays (scalars)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stack</span> <span class="ow">and</span> <span class="n">is_scalar</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cannot concatenate with </span><span class="si">{</span><span class="n">inst</span><span class="si">}</span><span class="s2"> which is scalar&quot;</span><span class="p">)</span>
+
+    <span class="c1"># if the inst has shape</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)):</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="o">*</span><span class="n">inst</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="k">if</span> <span class="n">stack</span> <span class="k">else</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="o">*</span><span class="n">inst</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span>
+            <span class="n">target_type</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">target_type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">object</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">target_type</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">object</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">target_type</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">inst</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)):</span>
+        <span class="n">zero_batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inst</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">zero_batch</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">_createValue</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="n">stack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">zero_batch</span>
+    <span class="k">elif</span> <span class="n">is_scalar</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_createValue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">inst</span><span class="p">),</span> <span class="n">size</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="n">stack</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>    <span class="c1"># fall back to np.object</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">None</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="_parseValue"><a class="viewcode-back" href="../../common/common.html#common.batch._parseValue">[docs]</a><span class="k">def</span> <span class="nf">_parseValue</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parse the values for the dict to Batch or torch.Tensor.</span>
+
+<span class="sd">    a) dict -&gt; Batch</span>
+<span class="sd">    b) Batch, torch.Tensor -&gt; pass</span>
+<span class="sd">    c) np.ndarray/Collection -&gt; np.ndarray</span>
+<span class="sd">    d) BatchSet[dict, Batch] -&gt; Batch</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        v: any</span>
+<span class="sd">            The value from the dict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">Batch</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Collection</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> \
+                <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Batch does not support non-stackable iterable of torch.Tensor as unique value yet.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">v_</span> <span class="o">=</span> <span class="n">_convertToArray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Batch does not support heterogeneous list/tuple of tensors as unique value yet.&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">if</span> <span class="n">_isBatchSet</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>    <span class="c1"># v is a list/tuple of dict/Batch objects</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># None, scalar, normal data list (main case)</span>
+            <span class="c1"># or an actual list of objects</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v_</span>
+    <span class="k">return</span> <span class="n">v</span></div>
+
+
+<span class="n">BATCH_INNER_KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_max_size&#39;</span><span class="p">,</span> <span class="s1">&#39;_sample_data&#39;</span><span class="p">,</span> <span class="s1">&#39;_init_type&#39;</span><span class="p">,</span> <span class="s1">&#39;_insert_index&#39;</span><span class="p">,</span> <span class="s1">&#39;_unsqueeze&#39;</span><span class="p">]</span>
+
+
+<span class="c1"># TODO:</span>
+<span class="c1"># 1. a better way to save the RAM MEMORY is to let the methods items(), values(), keys() return a iterator.</span>
+<span class="c1"># 2. The methods append_() and update_() should be updated to use _getKeys() to process different keys.</span>
+<div class="viewcode-block" id="Batch"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch">[docs]</a><span class="k">class</span> <span class="nc">Batch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Batch class is for the internal data structure to pass any kind of data to other methods.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">batch_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">,</span> <span class="n">BatchSet</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">init_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;whole_data&#39;</span><span class="p">,</span>       <span class="c1"># or &#39;sample_data&#39;</span>
+                 <span class="n">max_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sample_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">unsqueeze</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_type</span> <span class="o">=</span> <span class="n">init_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_size</span> <span class="o">=</span> <span class="n">max_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_data</span> <span class="o">=</span> <span class="n">sample_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span> <span class="o">=</span> <span class="n">unsqueeze</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="n">batch_dict</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">)</span>
+            <span class="n">sample_data</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">sample_data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_type</span> <span class="o">==</span> <span class="s1">&#39;whole_data&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">batch_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)):</span>
+                    <span class="n">_assertKeysType</span><span class="p">(</span><span class="n">batch_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">batch_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">elif</span> <span class="n">_isBatchSet</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stack_</span><span class="p">(</span><span class="n">batch_dict</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_type</span> <span class="o">==</span> <span class="s1">&#39;sample_data&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sample_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">createEmptyBatch</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="n">sample_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The initial data type is not supported!&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Batch.__setattr__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__setattr__">[docs]</a>    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the value.</span>
+
+<span class="sd">        ``self.key = value`` will call this func.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BATCH_INNER_KEYS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">_parseValue</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="Batch.__getitem__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the value self.__dict__[index]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="n">batch_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">batch_items</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                    <span class="n">b</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">b</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">b</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Cannot access item from empty Batch object&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.__setitem__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__setitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign value to self[index]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">_parseValue</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Batch does not supported tensor assignment. Use a compatible Batch or dict instead.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Creating keys is not supported by item assignment.&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">))):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Batch.__iadd__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__iadd__">[docs]</a>    <span class="k">def</span> <span class="fm">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Batch</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Algebraic addition with another Batch instance in-place.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other: Batch or Number or np.number</span>
+<span class="sd">                The other instance to add.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self: Batch</span>
+<span class="sd">                The batch data after the addition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+            <span class="c1"># check if the keys are consistent, which is not implemented in</span>
+            <span class="c1"># git@github:thu-ml/tianshou.git/tianshou/data/batch.py v0.2.6</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">other</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v1</span><span class="p">),</span> <span class="n">v2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">other</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v1</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v2</span>
+                <span class="k">return</span> <span class="bp">self</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;The two Batches should have the same keys in addition.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">other</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Only addition of Batch or number is supported.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.__add__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Batch</span><span class="p">,</span> <span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Algebraic addition with another Batch instance out-of-place. Here the func utilizes the copy.deepcopy()</span>
+<span class="sd">        since the Batch is based on the dict which will be changed when as a input to a certain func.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other: Batch or Number or np.number</span>
+<span class="sd">                The other instance to add.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            new_batch: Batch</span>
+<span class="sd">                The batch data after the addition.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__iadd__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.__imul__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__imul__">[docs]</a>    <span class="k">def</span> <span class="fm">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Algebraic multiplication with a scalar value in-place.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: Number or np.number</span>
+<span class="sd">                The multiplication value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self: Batch</span>
+<span class="sd">                The batch data after the multiplication.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;Only multiplication by a number is supported.&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Batch.__mul__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Algebraic multiplication with a scalar value out-of-place. Here the func utilizes the copy.deepcopy()</span>
+<span class="sd">        since the Batch is based on the dict which will be changed when as a input to a certain func.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: Number or np.number</span>
+<span class="sd">                The multiplication value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            new_batch: Batch</span>
+<span class="sd">                The batch data after the multiplication.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__imul__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.__itruediv__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__itruediv__">[docs]</a>    <span class="k">def</span> <span class="fm">__itruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Algebraic division with a scalar value in-place.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: Number or np.number</span>
+<span class="sd">                The division value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self: Batch</span>
+<span class="sd">                The batch data after the division.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;Only division by a number is supported.&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Batch.__truediv__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__truediv__">[docs]</a>    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Algebraic division with a scalar value out-of-place. Here the func utilizes the copy.deepcopy()</span>
+<span class="sd">        since the Batch is based on the dict which will be changed when as a input to a certain func.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value: Number or np.number</span>
+<span class="sd">                The division value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self: Batch</span>
+<span class="sd">                The batch data after the division.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__itruediv__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.__repr__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return str(self).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">rpl</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">rpl</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">obj</span><span class="si">}</span><span class="s1">,</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;class &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;(): empty&#39;</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+<div class="viewcode-block" id="Batch.__len__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns len(self).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">))</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_isScalar</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> has no len()&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># empty batch has the shape of any, like the tensorflow &#39;?&#39; shape. So it has no length.</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> has no len()&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.__contains__"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.__contains__">[docs]</a>    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns key in self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span></div>
+
+<div class="viewcode-block" id="Batch.createEmptyBatch"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.createEmptyBatch">[docs]</a>    <span class="k">def</span> <span class="nf">createEmptyBatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sample_data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">],</span> <span class="n">unsqueeze</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new empty batch with the given sample_data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_size: int</span>
+<span class="sd">                The maximum size of the new empty batch.</span>
+<span class="sd">            sample_data: dict or Batch</span>
+<span class="sd">                The sample data. The shape can be [batch_size, feature_size, ...] or [feature_size, ...]</span>
+<span class="sd">            unsqueeze: bool, optional</span>
+<span class="sd">                Whether to unsqueeze the first dimension to be the batch_size, defaults to False.</span>
+<span class="sd">                E.g. similar to the var `stack` in func _createValue(), if the sample_data is [batch_size, feature_size, ...](e.g. [1, 3, 5] or [N, 3, 5]),</span>
+<span class="sd">                the `unsqueeze` should be `False`, else when the sample_data is [feature_size, ...](e.g. [3, 5]), the `unsqueeze` should be `True`.</span>
+<span class="sd">                </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">sample_data</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;The sample_data should not be </span><span class="si">{</span><span class="n">sample_data</span><span class="si">}</span><span class="s2"> when using the sample data to create the empty batch!&quot;</span>
+        <span class="k">assert</span> <span class="n">max_size</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;The maximum batch size should not be </span><span class="si">{</span><span class="n">max_size</span><span class="si">}</span><span class="s2"> when using the sample data to create the empty batch!&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_size</span> <span class="o">=</span> <span class="n">max_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_data</span> <span class="o">=</span> <span class="n">sample_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span> <span class="o">=</span> <span class="n">unsqueeze</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)):</span>
+            <span class="n">_assertKeysType</span><span class="p">(</span><span class="n">sample_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_createValue</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">max_size</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="n">unsqueeze</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sample_data should be a dict or a Batch&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.keys"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns self.keys() as a list of keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BATCH_INNER_KEYS</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Batch.values"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns self.values() as a list of values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BATCH_INNER_KEYS</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Batch.items"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">)]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns self.items() as a list of items.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BATCH_INNER_KEYS</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Batch.get"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns self[key] if key in self else default, default defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.pop"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.pop">[docs]</a>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns and removes self[key] if k in self else default, default defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BATCH_INNER_KEYS</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;The key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> is the Batch inner key, you can only call method get().&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.to_numpy"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.to_numpy">[docs]</a>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change all torch.Tensor to numpy.ndarray. This is an in-place operation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Batch.to_torch"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.to_torch">[docs]</a>    <span class="k">def</span> <span class="nf">to_torch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change all numpy.ndarray(except dtype==np.object) to torch.Tensor. This is an in-place operation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dtype: torch.dtype, optional</span>
+<span class="sd">                The target dtype, defaults to None.</span>
+<span class="sd">            device: str or int or torch.device, optional</span>
+<span class="sd">                The target device, defaults to &#39;cpu&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">dtype</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">device</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">to_torch</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+                <span class="c1"># skip the value with dtype==np.object</span>
+                <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Batch.to"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.to">[docs]</a>    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transfer the data to the target device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            device: str or int or torch.device, optional</span>
+<span class="sd">                The target device, defaults to &#39;cpu&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
+            <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">device</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+                <span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Batch._getKeys"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch._getKeys">[docs]</a>    <span class="k">def</span> <span class="nf">_getKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Divide the keys to several different sets.</span>
+
+<span class="sd">        a) all keys</span>
+<span class="sd">        b) keys that are in all batches and is not empty.</span>
+<span class="sd">        c) keys that are reserved in all batches (i.e. empty Batch())</span>
+<span class="sd">        d) keys that occur only in some batches, but not all.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batches: list[dict or Batch]</span>
+<span class="sd">                The batches&#39; keys will be divided into several sets.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            keys_total: set[str]</span>
+<span class="sd">                All keys in the batches.</span>
+<span class="sd">            keys_shared: set[str]</span>
+<span class="sd">                keys that are in all batches and is not empty.</span>
+<span class="sd">            keys_reserve: set[str]</span>
+<span class="sd">                keys that are reserved in all batches (i.e. empty Batch())</span>
+<span class="sd">            keys_partial: set[str]</span>
+<span class="sd">                keys that occur only in some batches, but not all.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># list of non-empty keys for each batch</span>
+        <span class="n">keys_map</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()))</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span>
+
+        <span class="n">keys_total</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">])</span>
+
+        <span class="n">keys_shared</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="o">*</span><span class="n">keys_map</span><span class="p">)</span>
+
+        <span class="n">keys_reserve</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">keys_total</span><span class="p">,</span> <span class="nb">set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="o">*</span><span class="n">keys_map</span><span class="p">))</span>
+
+        <span class="n">keys_reserve_or_partial</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">keys_total</span><span class="p">,</span> <span class="n">keys_shared</span><span class="p">)</span>
+        <span class="n">keys_partial</span> <span class="o">=</span> <span class="nb">set</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">keys_reserve_or_partial</span><span class="p">,</span> <span class="n">keys_reserve</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">keys_total</span><span class="p">,</span> <span class="n">keys_shared</span><span class="p">,</span> <span class="n">keys_reserve</span><span class="p">,</span> <span class="n">keys_partial</span></div>
+
+<div class="viewcode-block" id="Batch._cat"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch._cat">[docs]</a>    <span class="k">def</span> <span class="nf">_cat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]],</span> <span class="n">lens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Concatenate a list of Batch() objects into self.__dict__.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batches: list[dict or Batch]</span>
+<span class="sd">                The batches to concatenate.</span>
+<span class="sd">            lens: list[int]</span>
+<span class="sd">                The lengths of each batch in batches.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keys_total</span><span class="p">,</span> <span class="n">keys_shared</span><span class="p">,</span> <span class="n">keys_reserve</span><span class="p">,</span> <span class="n">keys_partial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getKeys</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+
+        <span class="c1"># as for shared keys</span>
+        <span class="n">values_shared</span> <span class="o">=</span> <span class="p">[[</span><span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_shared</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys_shared</span><span class="p">,</span> <span class="n">values_shared</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>
+                <span class="n">batch_holder</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+                <span class="n">batch_holder</span><span class="o">.</span><span class="n">_cat</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">lens</span><span class="o">=</span><span class="n">lens</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch_holder</span>
+            <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_convertToArray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># as for reserved keys</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_reserve</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+
+        <span class="c1"># get the insertion location of each batch data for patial keys.</span>
+        <span class="n">sum_lens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lens</span><span class="p">:</span>
+            <span class="n">sum_lens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sum_lens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># as for partial keys, batches that do not have these keys will be padded by zeros with appropriate shapes.</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_partial</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batches</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                    <span class="k">continue</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">sum_lens</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span><span class="n">sum_lens</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_createValue</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">sum_lens</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">stack</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">sum_lens</span><span class="p">[</span><span class="n">idx</span><span class="p">]:</span><span class="n">sum_lens</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># the insert_index will be updated to the length.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.cat_"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.cat_">[docs]</a>    <span class="k">def</span> <span class="nf">cat_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batches</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Concatenate a list of (or one) Batch() objects into current batch. Calc the total length for the target</span>
+<span class="sd">        final batch and then call func self._cat().</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batches: Batch or list[dict or Batch]</span>
+<span class="sd">                The batches to concatenate, it does not contain the current batch yet.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process the batches to a list of non-empty Batch() objects</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">batches</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>   <span class="c1"># which means the batches are all empty.</span>
+            <span class="k">return</span>
+        <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="k">else</span> <span class="n">Batch</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span>
+        <span class="c1"># x.isEmpty() means that x is a empty Batch() and should be ignored</span>
+        <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()]</span>
+
+        <span class="c1"># Obtains the length of each batch</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># x.isEmpty(recurse=True) here means x is a nested empty batch like Batch(a=Batch()),</span>
+            <span class="c1"># and we have to treat it as length zero and keep it.</span>
+            <span class="n">lens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Batch.cat_() meets an exception. Maybe because there is any &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;scalar in </span><span class="si">{</span><span class="n">batches</span><span class="si">}</span><span class="s1"> but Batch.cat_() does not support the &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;concatenation of scalar.&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="c1"># Add current batch to the batches and the length of current batch to lens.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+            <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+            <span class="n">lens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span> <span class="o">+</span> <span class="n">lens</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cat</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">lens</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.cat"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.cat">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cat</span><span class="p">(</span><span class="n">batches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Concatenate a list of Batch() objects into a single new batch. For keys that are not shared across</span>
+<span class="sd">        all batches, batches that do not have these keys will be padded by zeros with appropriate shapes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batches: Batch or list[dict or Batch]</span>
+<span class="sd">                The batches to concatenate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+        <span class="n">batch</span><span class="o">.</span><span class="n">cat_</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">batch</span></div>
+
+<div class="viewcode-block" id="Batch.stack_"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.stack_">[docs]</a>    <span class="k">def</span> <span class="nf">stack_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batches</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]]],</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stack a list (or one) of Batch/dict objects into current batch.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batches: Batch or list[dict or Batch]</span>
+<span class="sd">                The batches to stack.</span>
+<span class="sd">            axis: int, optional</span>
+<span class="sd">                The stack axis, defined similarly to torch, defaults to 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># process the batches to a list of non-empty Batch() objects</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">batches</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="k">else</span> <span class="n">Batch</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+            <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+
+        <span class="n">keys_total</span><span class="p">,</span> <span class="n">keys_shared</span><span class="p">,</span> <span class="n">keys_reserve</span><span class="p">,</span> <span class="n">keys_partial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getKeys</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+
+        <span class="c1"># as for shared keys</span>
+        <span class="n">values_shared</span> <span class="o">=</span> <span class="p">[[</span><span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_shared</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys_shared</span><span class="p">,</span> <span class="n">values_shared</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>     <span class="c1"># second often</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">))</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">v</span><span class="p">):</span>    <span class="c1"># forth often</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>       <span class="c1"># most often case is np.ndarray</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_convertToArray</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">keys_partial</span> <span class="ow">and</span> <span class="n">axis</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Stack of Batch with non-shared keys </span><span class="si">{}</span><span class="s2">, is only supported with axis=0, but got axis=</span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">keys_partial</span><span class="p">,</span> <span class="n">axis</span><span class="p">))</span>
+
+        <span class="c1"># as for reserved keys</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_reserve</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+
+        <span class="c1"># as for partial keys, batches that do not have these keys will be padded by zeros with appropriate shapes.</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_partial</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batches</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+                    <span class="k">continue</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_createValue</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">batches</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># the insert_index will be updated to the length.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.stack"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.stack">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="n">batches</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]],</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stack a list of Batch() objects into a single new batch. For keys that are not shared across all batches,</span>
+<span class="sd">        batches that do not have these keys will be padded with zeros.</span>
+<span class="sd">        </span>
+<span class="sd">        Note: If there are keys that are not shared across all batches, func stack() with ``axis != 0`` is undefined,</span>
+<span class="sd">              and will cause an exception.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batches: Batch or list[dict or Batch]</span>
+<span class="sd">                The batches to stack.</span>
+<span class="sd">            axis: int, optional</span>
+<span class="sd">                The stack axis, defined similarly to torch, defaults to 0.</span>
+
+<span class="sd">        e.g.:</span>
+<span class="sd">            &gt;&gt;&gt; a = Batch(a=np.zeros([4, 4]), common=Batch(c=np.zeros([4, 5])))</span>
+<span class="sd">            &gt;&gt;&gt; b = Batch(b=np.zeros([4, 6]), common=Batch(c=np.zeros([4, 5])))</span>
+<span class="sd">            &gt;&gt;&gt; c = Batch.stack([a, b])</span>
+<span class="sd">            &gt;&gt;&gt; c.a.shape</span>
+<span class="sd">            (2, 4, 4)</span>
+<span class="sd">            &gt;&gt;&gt; c.b.shape</span>
+<span class="sd">            (2, 4, 6)</span>
+<span class="sd">            &gt;&gt;&gt; c.common.c.shape</span>
+<span class="sd">            (2, 4, 5)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
+        <span class="n">batch</span><span class="o">.</span><span class="n">stack_</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">batch</span></div>
+
+<div class="viewcode-block" id="Batch.empty_"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.empty_">[docs]</a>    <span class="k">def</span> <span class="nf">empty_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an empty Batch() object (empty the current batch) with 0 or ``None`` filled. If ``index`` is</span>
+<span class="sd">        specified, it will only reset the specific indexed-data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index: str or slice or int or np.integer or np.ndarray or list[int], optional</span>
+<span class="sd">                To specify the indexed-data, defaults to None and will empty the whole Batch().</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            empty_batch: Batch</span>
+<span class="sd">                The batch after the empty operation.</span>
+
+<span class="sd">        e.g.:</span>
+<span class="sd">            &gt;&gt;&gt; data.empty_()</span>
+<span class="sd">            &gt;&gt;&gt; print(data)</span>
+<span class="sd">            Batch(</span>
+<span class="sd">                a: array([[0., 0.],</span>
+<span class="sd">                          [0., 0.]]),</span>
+<span class="sd">                b: array([None, None], dtype=object),</span>
+<span class="sd">            )</span>
+<span class="sd">            &gt;&gt;&gt; b={&#39;c&#39;: [2., &#39;st&#39;], &#39;d&#39;: [1., 0.]}</span>
+<span class="sd">            &gt;&gt;&gt; data = Batch(a=[False,  True], b=b)</span>
+<span class="sd">            &gt;&gt;&gt; data[0] = Batch.empty(data[1])</span>
+<span class="sd">            &gt;&gt;&gt; data</span>
+<span class="sd">            Batch(</span>
+<span class="sd">                a: array([False,  True]),</span>
+<span class="sd">                b: Batch(</span>
+<span class="sd">                       c: array([None, &#39;st&#39;]),</span>
+<span class="sd">                       d: array([0., 0.]),</span>
+<span class="sd">                   ),</span>
+<span class="sd">            )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>     <span class="c1"># most often case</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">elif</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">empty_</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>    <span class="c1"># scalar value</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;You are calling Batch.empty_() on a NumPy scalar, which may cause undefined behaviors.&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># reset the insert_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Batch.empty"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.empty">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="n">batch</span><span class="p">:</span> <span class="n">Batch</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an empty Batch() object with 0 or ``None`` filled, the shape is the same as the given Batch().</span>
+<span class="sd">        If ``index`` is specified, it will only reset the specific indexed-data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index: str or slice or int or np.integer or np.ndarray or list[int], optional</span>
+<span class="sd">                To specify the indexed-data, defaults to None and will empty the whole Batch().</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            empty_batch: Batch</span>
+<span class="sd">                A new empty Batch with 0 or ``None`` filled, the shape is the same as the given Batch().</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">empty_</span><span class="p">(</span><span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.append_"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.append_">[docs]</a>    <span class="k">def</span> <span class="nf">append_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append new data to the current batch. (The data should be only one batch or dict, with the first dimension as batch_size)</span>
+
+<span class="sd">        Note: The new data must have the same keys as the data in the batch. The missing key will cause</span>
+<span class="sd">        the missing value in the key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: dict or Batch, optional</span>
+<span class="sd">                The target data to append after the current batch.</span>
+<span class="sd">            </span>
+<span class="sd">            kwargs:</span>
+<span class="sd">                The internal data dict. e.g.: Batch.append_(obs=..., action=..., ...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># When it is the first append, need to check the first dimension</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+            <span class="n">with_batch_size</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># try to check whether the first dimension is batch_size</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+                    <span class="n">with_batch_size</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">with_batch_size</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cat_</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stack_</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;shape&#39;</span><span class="p">):</span>                   <span class="c1"># TODO: the self[k] are most likely to have &#39;shape&#39; property, the code may need to be optimized</span>
+                <span class="n">target_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>             <span class="c1"># second often case</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">view</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">target_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">v</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;You are calling Batch.append_() on a Batch(..., key=Batch(), ...) data, which may cause undefined behaviors.&#39;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>                                       <span class="c1"># most often case, np.ndarray</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">_convertToArray</span><span class="p">([</span><span class="n">v</span><span class="p">])</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">target_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">v</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span>
+
+        <span class="c1"># append a new data after the original Batch, the insert_index will be updated to the length.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">append_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.append"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.append">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">batch</span><span class="p">:</span> <span class="n">Batch</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append new data to the target batch.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batch: Batch</span>
+<span class="sd">                The target batch.</span>
+<span class="sd">            data:dict or Batch, optional</span>
+<span class="sd">                The target data to append after the current batch.</span>
+<span class="sd">            </span>
+<span class="sd">            kwargs:</span>
+<span class="sd">                The internal data dict. e.g.: Batch.append_(obs=..., action=..., ...)</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            appended_batch: Batch</span>
+<span class="sd">                The target batch after the append operation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">append_</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.update_"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.update_">[docs]</a>    <span class="k">def</span> <span class="nf">update_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the current Batch from the data.</span>
+
+<span class="sd">        Note: Please make sure none of the value in the data is Batch() or it may lead to undefined behaviors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index: slice or int or or np.ndarray or list[int], optional</span>
+<span class="sd">                To specify the indexed-data, defaults to None and will update the whole Batch().</span>
+<span class="sd">            data: dict or Batch, optional</span>
+<span class="sd">                The target data to update the current data</span>
+
+<span class="sd">            kwargs:</span>
+<span class="sd">                The internal data dict. e.g.: Batch.update_(index=..., obs=..., action=..., ...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># if isinstance(index, str):</span>
+        <span class="c1">#     self[index] = deepcopy(data)</span>
+        <span class="c1">#     # TODO: how to handle the insert_index is a problem if the new data has a different size from</span>
+        <span class="c1">#             the other remaining data.</span>
+        <span class="c1">#     return</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">view_as</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">])</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;You are calling Batch.update_() with a value=Batch(...) data, which may cause undefined behaviors.&#39;</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">Batch</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> in the current Batch is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">}</span><span class="s2"> but not Batch type!&quot;</span>
+                <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">update_</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">v_</span> <span class="o">=</span> <span class="n">_convertToArray</span><span class="p">([</span><span class="n">v</span><span class="p">])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">v_</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="c1"># when index is int and self[k][index] is None or str, self[k][index].shape does not exist.</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">],</span> <span class="s1">&#39;shape&#39;</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The value in the data has caused some problem!&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">max_new_index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">max_new_index</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">stop</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">max_new_index</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">max_new_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">max_new_index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The type of the index is not supported!&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span><span class="p">,</span> <span class="n">max_new_index</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.update"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.update">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">batch</span><span class="p">:</span> <span class="n">Batch</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Batch</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the target Batch from the given data and index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            batch: Batch</span>
+<span class="sd">                The target batch.</span>
+<span class="sd">            index: str, slice or int or np.integer or np.ndarray or list[int], optional</span>
+<span class="sd">                To specify the indexed-data, defaults to None and will update the whole Batch().</span>
+<span class="sd">            data: dict or Batch, optional</span>
+<span class="sd">                The target data to update the current data</span>
+
+<span class="sd">            kwargs:</span>
+<span class="sd">                The internal data dict. e.g.: Batch.update_(index=..., obs=..., action=..., ...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">update_</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Batch.isEmpty"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.isEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if a Batch is empty. When ``recurse = True``, it further tests the values of the object,</span>
+<span class="sd">        otherwise it only tests the existence of any key.</span>
+
+<span class="sd">        a) ``b.isEmpty(recurse=True)`` is mainly used to distinguish ``Batch(a=Batch(a=Batch()))``</span>
+<span class="sd">        and ``Batch(a=1)``. They both raise exceptions when applied to ``len()``, but the former</span>
+<span class="sd">        can be used in ``cat``, while the latter is a scalar and cannot be used in ``cat``.</span>
+<span class="sd">        b) Another usage is in ``__len__``, where we have to skip checking the length of recursively empty Batch.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            recurse: bool</span>
+<span class="sd">                Whether to tests the values of the objects, defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            is_empty: bool</span>
+<span class="sd">                Whether the Batch is empty.</span>
+
+<span class="sd">        e.g.:</span>
+<span class="sd">            &gt;&gt;&gt; Batch().isEmpty()</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; Batch(a=Batch(), b=Batch(c=Batch())).isEmpty()</span>
+<span class="sd">            False</span>
+<span class="sd">            &gt;&gt;&gt; Batch(a=Batch(), b=Batch(c=Batch())).isEmpty(recurse=True)</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; Batch(d=1).isEmpty()</span>
+<span class="sd">            False</span>
+<span class="sd">            &gt;&gt;&gt; Batch(a=np.float64(1.0)).isEmpty()</span>
+<span class="sd">            False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">BATCH_INNER_KEYS</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">recurse</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="kc">False</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Batch.split"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">merge_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Batch</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split whole data into multiple small batches.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            size: int</span>
+<span class="sd">                Divide the data batch with the given size, but one batch if the length of the batch is smaller than ``size``.</span>
+<span class="sd">            shuffle: bool, optional</span>
+<span class="sd">                Randomly shuffle the entire data batch if it is True, otherwise remain in the same, defaults to True.</span>
+<span class="sd">            merge_last: bool, optional</span>
+<span class="sd">                Merge the last batch into the previous one, defaults to False.</span>
+
+<span class="sd">        e.g.:</span>
+<span class="sd">            for small_batch in batch.split(size=5):</span>
+<span class="sd">                ...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="mi">1</span>    <span class="c1"># size can be greater than length, return whole batch</span>
+
+        <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="n">merge_last</span> <span class="o">=</span> <span class="n">merge_last</span> <span class="ow">and</span> <span class="p">(</span><span class="n">length</span> <span class="o">%</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">merge_last</span> <span class="ow">and</span> <span class="n">idx</span> <span class="o">+</span> <span class="n">size</span> <span class="o">+</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="n">length</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">idx</span><span class="p">:]]</span>
+                <span class="k">break</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span> <span class="o">+</span> <span class="n">size</span><span class="p">]]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns self.shape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_shape</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">data_shape</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="n">data_shape</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data_shape</span><span class="p">)))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">data_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the size, i.e. len(self)</span>
+
+<span class="sd">        Note: If the _init_type == &#39;whole_data&#39;, it will return the len(self) which will be the minimal size of the</span>
+<span class="sd">              values. When the _init_type == &#39;sample_data&#39;, it will return the maximal size of the non-empty values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_type</span> <span class="o">==</span> <span class="s1">&#39;whole_data&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_type</span> <span class="o">==</span> <span class="s1">&#39;sample_data&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_index</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Joy Jiang.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

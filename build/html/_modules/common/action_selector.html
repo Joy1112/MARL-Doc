@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>common.action_selector &mdash; MARL v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> MARL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">common</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/modules.html">common</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MARL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>common.action_selector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for common.action_selector</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NoReturn</span>
+
+
+<div class="viewcode-block" id="EpsilonDecayBase"><a class="viewcode-back" href="../../common/common.html#common.action_selector.EpsilonDecayBase">[docs]</a><span class="k">class</span> <span class="nc">EpsilonDecayBase</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">time_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_start</span> <span class="o">=</span> <span class="n">epsilon_start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_end</span> <span class="o">=</span> <span class="n">epsilon_end</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_length</span> <span class="o">=</span> <span class="n">time_length</span>
+
+<div class="viewcode-block" id="EpsilonDecayBase.getEpsilon"><a class="viewcode-back" href="../../common/common.html#common.action_selector.EpsilonDecayBase.getEpsilon">[docs]</a>    <span class="k">def</span> <span class="nf">getEpsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="LinearEpsilonDecay"><a class="viewcode-back" href="../../common/common.html#common.action_selector.LinearEpsilonDecay">[docs]</a><span class="k">class</span> <span class="nc">LinearEpsilonDecay</span><span class="p">(</span><span class="n">EpsilonDecayBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">time_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearEpsilonDecay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">epsilon_start</span><span class="p">,</span> <span class="n">epsilon_end</span><span class="p">,</span> <span class="n">time_length</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">decay_type</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_delta</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon_start</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_end</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_length</span>
+
+<div class="viewcode-block" id="LinearEpsilonDecay.getEpsilon"><a class="viewcode-back" href="../../common/common.html#common.action_selector.LinearEpsilonDecay.getEpsilon">[docs]</a>    <span class="k">def</span> <span class="nf">getEpsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon_end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_start</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_delta</span> <span class="o">*</span> <span class="n">t_step</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ExpEpsilonDecay"><a class="viewcode-back" href="../../common/common.html#common.action_selector.ExpEpsilonDecay">[docs]</a><span class="k">class</span> <span class="nc">ExpEpsilonDecay</span><span class="p">(</span><span class="n">EpsilonDecayBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon_end</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">time_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ExpEpsilonDecay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">epsilon_start</span><span class="p">,</span> <span class="n">epsilon_end</span><span class="p">,</span> <span class="n">time_length</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">decay_type</span> <span class="o">=</span> <span class="s1">&#39;exp&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exp_scaling</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_length</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon_end</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_end</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="ExpEpsilonDecay.getEpsilon"><a class="viewcode-back" href="../../common/common.html#common.action_selector.ExpEpsilonDecay.getEpsilon">[docs]</a>    <span class="k">def</span> <span class="nf">getEpsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon_start</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epsilon_end</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">t_step</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp_scaling</span><span class="p">)))</span></div></div>
+
+
+<div class="viewcode-block" id="ActionSelectorBase"><a class="viewcode-back" href="../../common/common.html#common.action_selector.ActionSelectorBase">[docs]</a><span class="k">class</span> <span class="nc">ActionSelectorBase</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon_decay_fn</span><span class="p">:</span> <span class="n">EpsilonDecayBase</span><span class="p">,</span> <span class="o">*</span><span class="n">epsilon_args</span><span class="p">,</span> <span class="o">**</span><span class="n">epsilon_kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_decay</span> <span class="o">=</span> <span class="n">epsilon_decay_fn</span><span class="p">(</span><span class="o">*</span><span class="n">epsilon_args</span><span class="p">,</span> <span class="o">**</span><span class="n">epsilon_kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_decay</span><span class="o">.</span><span class="n">getEpsilon</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_type</span>
+
+<div class="viewcode-block" id="ActionSelectorBase.select_actions"><a class="viewcode-back" href="../../common/common.html#common.action_selector.ActionSelectorBase.select_actions">[docs]</a>    <span class="k">def</span> <span class="nf">select_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actor_outputs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">avail_actions</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">t_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+
+
+<div class="viewcode-block" id="EpsilonGreedyActionSelector"><a class="viewcode-back" href="../../common/common.html#common.action_selector.EpsilonGreedyActionSelector">[docs]</a><span class="k">class</span> <span class="nc">EpsilonGreedyActionSelector</span><span class="p">(</span><span class="n">ActionSelectorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">epsilon_args</span><span class="p">,</span> <span class="n">epsilon_decay_fn</span><span class="p">:</span> <span class="n">EpsilonDecayBase</span> <span class="o">=</span> <span class="n">LinearEpsilonDecay</span><span class="p">,</span> <span class="o">**</span><span class="n">epsilon_kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EpsilonGreedyActionSelector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">epsilon_decay_fn</span><span class="p">,</span> <span class="o">*</span><span class="n">epsilon_args</span><span class="p">,</span> <span class="o">**</span><span class="n">epsilon_kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="s1">&#39;epsilon_greedy&#39;</span>
+
+<div class="viewcode-block" id="EpsilonGreedyActionSelector.select_actions"><a class="viewcode-back" href="../../common/common.html#common.action_selector.EpsilonGreedyActionSelector.select_actions">[docs]</a>    <span class="k">def</span> <span class="nf">select_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actor_outputs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">avail_actions</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">t_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">test_mode</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_decay</span><span class="o">.</span><span class="n">getEpsilon</span><span class="p">(</span><span class="n">t_step</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="mf">0.0</span>         <span class="c1"># greedy action selection when it&#39;s under test condition</span>
+
+        <span class="n">masked_q_values</span> <span class="o">=</span> <span class="n">actor_outputs</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">masked_q_values</span><span class="p">[</span><span class="n">avail_actions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>        <span class="c1"># never select unavailable actions</span>
+
+        <span class="n">random_actions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">avail_actions</span><span class="o">.</span><span class="n">float</span><span class="p">())</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">pick_random_actions</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">masked_q_values</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+
+        <span class="n">actions</span> <span class="o">=</span> <span class="n">pick_random_actions</span> <span class="o">*</span> <span class="n">random_actions</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">pick_random_actions</span><span class="p">)</span> <span class="o">*</span> <span class="n">masked_q_values</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">actions</span></div></div>
+
+
+<span class="c1"># TODO: no need to use epsilon</span>
+<div class="viewcode-block" id="MultinomialActionSelector"><a class="viewcode-back" href="../../common/common.html#common.action_selector.MultinomialActionSelector">[docs]</a><span class="k">class</span> <span class="nc">MultinomialActionSelector</span><span class="p">(</span><span class="n">ActionSelectorBase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon_decay_fn</span><span class="p">:</span> <span class="n">EpsilonDecayBase</span><span class="p">,</span> <span class="o">*</span><span class="n">epsilon_args</span><span class="p">,</span> <span class="n">test_greedy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">epsilon_kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MultinomialActionSelector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">epsilon_decay_fn</span><span class="p">,</span> <span class="o">*</span><span class="n">epsilon_args</span><span class="p">,</span> <span class="o">**</span><span class="n">epsilon_kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_greedy</span> <span class="o">=</span> <span class="n">test_greedy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="s1">&#39;multinomial&#39;</span>
+
+<div class="viewcode-block" id="MultinomialActionSelector.select_actions"><a class="viewcode-back" href="../../common/common.html#common.action_selector.MultinomialActionSelector.select_actions">[docs]</a>    <span class="k">def</span> <span class="nf">select_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actor_outputs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">avail_actions</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">t_step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">masked_policies</span> <span class="o">=</span> <span class="n">actor_outputs</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">masked_policies</span><span class="p">[</span><span class="n">avail_actions</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">if</span> <span class="n">test_mode</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_greedy</span><span class="p">:</span>
+            <span class="n">actions</span> <span class="o">=</span> <span class="n">masked_policies</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">actions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">masked_policies</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">actions</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Joy Jiang.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
