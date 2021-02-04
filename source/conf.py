@@ -87,9 +87,9 @@ html_static_path = ['_static']
 
 # -- Support Markdown --------------------------------------------------------
 
-source_parsers = {
-    '.md': CommonMarkParser,
-}
+# source_parsers = {
+#     '.md': CommonMarkParser,
+# }
 source_suffix = ['.rst', '.md']
 master_doc = "index"
 
