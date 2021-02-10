@@ -7,15 +7,18 @@ Welcome to MARL's documentation!
 ================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: common
+   :maxdepth: 1
+   :caption: Tutorials
+   :includehidden:
+   
+   tutorials/installation
 
-   common/modules
+.. toctree::
+   :maxdepth: 1
+   :caption: Internal Documentation
+   :includehidden:
 
-Common
-======
-
-:doc:`common.models</common/common.models>`
+   internal docs/common/common_modules
 
 
 

@@ -1,0 +1,2022 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>common package &mdash; MARL v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> MARL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../internal%20docs/common/common_modules.html">common</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MARL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>common package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/common/common.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="common-package">
+<h1>common package<a class="headerlink" href="#common-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common.models.html">common.models package</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-common.action_selector">
+<span id="common-action-selector-module"></span><h2>common.action_selector module<a class="headerlink" href="#module-common.action_selector" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="common.action_selector.ActionSelectorBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.action_selector.</code><code class="sig-name descname">ActionSelectorBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epsilon_decay_fn</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.action_selector.EpsilonDecayBase" title="common.action_selector.EpsilonDecayBase">common.action_selector.EpsilonDecayBase</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">epsilon_args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">epsilon_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/action_selector.html#ActionSelectorBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.ActionSelectorBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="common.action_selector.ActionSelectorBase.epsilon">
+<em class="property">property </em><code class="sig-name descname">epsilon</code><a class="headerlink" href="#common.action_selector.ActionSelectorBase.epsilon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="common.action_selector.ActionSelectorBase.getType">
+<em class="property">property </em><code class="sig-name descname">getType</code><a class="headerlink" href="#common.action_selector.ActionSelectorBase.getType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="common.action_selector.ActionSelectorBase.select_actions">
+<code class="sig-name descname">select_actions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actor_outputs</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">avail_actions</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">t_step</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">test_mode</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/action_selector.html#ActionSelectorBase.select_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.ActionSelectorBase.select_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.action_selector.EpsilonDecayBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.action_selector.</code><code class="sig-name descname">EpsilonDecayBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epsilon_start</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">epsilon_end</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">time_length</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/action_selector.html#EpsilonDecayBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.EpsilonDecayBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="common.action_selector.EpsilonDecayBase.getEpsilon">
+<code class="sig-name descname">getEpsilon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_step</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/action_selector.html#EpsilonDecayBase.getEpsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.EpsilonDecayBase.getEpsilon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.action_selector.EpsilonGreedyActionSelector">
+<em class="property">class </em><code class="sig-prename descclassname">common.action_selector.</code><code class="sig-name descname">EpsilonGreedyActionSelector</code><span class="sig-paren">(</span><em class="sig-param">*epsilon_args</em>, <em class="sig-param">epsilon_decay_fn: common.action_selector.EpsilonDecayBase = &lt;class 'common.action_selector.LinearEpsilonDecay'&gt;</em>, <em class="sig-param">**epsilon_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/action_selector.html#EpsilonGreedyActionSelector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.EpsilonGreedyActionSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.action_selector.ActionSelectorBase" title="common.action_selector.ActionSelectorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.action_selector.ActionSelectorBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.action_selector.EpsilonGreedyActionSelector.select_actions">
+<code class="sig-name descname">select_actions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actor_outputs</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">avail_actions</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">t_step</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">test_mode</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../_modules/common/action_selector.html#EpsilonGreedyActionSelector.select_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.EpsilonGreedyActionSelector.select_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.action_selector.ExpEpsilonDecay">
+<em class="property">class </em><code class="sig-prename descclassname">common.action_selector.</code><code class="sig-name descname">ExpEpsilonDecay</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epsilon_start</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">epsilon_end</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">time_length</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/action_selector.html#ExpEpsilonDecay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.ExpEpsilonDecay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.action_selector.EpsilonDecayBase" title="common.action_selector.EpsilonDecayBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.action_selector.EpsilonDecayBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.action_selector.ExpEpsilonDecay.getEpsilon">
+<code class="sig-name descname">getEpsilon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_step</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/common/action_selector.html#ExpEpsilonDecay.getEpsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.ExpEpsilonDecay.getEpsilon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.action_selector.LinearEpsilonDecay">
+<em class="property">class </em><code class="sig-prename descclassname">common.action_selector.</code><code class="sig-name descname">LinearEpsilonDecay</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epsilon_start</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">epsilon_end</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">time_length</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/action_selector.html#LinearEpsilonDecay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.LinearEpsilonDecay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.action_selector.EpsilonDecayBase" title="common.action_selector.EpsilonDecayBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.action_selector.EpsilonDecayBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.action_selector.LinearEpsilonDecay.getEpsilon">
+<code class="sig-name descname">getEpsilon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_step</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../_modules/common/action_selector.html#LinearEpsilonDecay.getEpsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.LinearEpsilonDecay.getEpsilon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.action_selector.MultinomialActionSelector">
+<em class="property">class </em><code class="sig-prename descclassname">common.action_selector.</code><code class="sig-name descname">MultinomialActionSelector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epsilon_decay_fn</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.action_selector.EpsilonDecayBase" title="common.action_selector.EpsilonDecayBase">common.action_selector.EpsilonDecayBase</a></span></em>, <em class="sig-param"><span class="o">*</span><span class="n">epsilon_args</span></em>, <em class="sig-param"><span class="n">test_greedy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">epsilon_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/action_selector.html#MultinomialActionSelector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.MultinomialActionSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.action_selector.ActionSelectorBase" title="common.action_selector.ActionSelectorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.action_selector.ActionSelectorBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.action_selector.MultinomialActionSelector.select_actions">
+<code class="sig-name descname">select_actions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actor_outputs</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">avail_actions</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">t_step</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">test_mode</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../_modules/common/action_selector.html#MultinomialActionSelector.select_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.action_selector.MultinomialActionSelector.select_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-common.batch">
+<span id="common-batch-module"></span><h2>common.batch module<a class="headerlink" href="#module-common.batch" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="common.batch.Batch">
+<em class="property">class </em><code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">Batch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_dict</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">Batch</a><span class="p">, </span>BatchSet<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'whole_data'</span></em>, <em class="sig-param"><span class="n">max_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sample_data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">Batch</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unsqueeze</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">copy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/batch.html#Batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The Batch class is for the internal data structure to pass any kind of data to other methods.</p>
+<dl class="py method">
+<dt id="common.batch.Batch.__add__">
+<code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic addition with another Batch instance out-of-place. Here the func utilizes the copy.deepcopy()
+since the Batch is based on the dict which will be changed when as a input to a certain func.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Batch or Number or np.number
+The other instance to add.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>new_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the addition.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#Batch.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns key in self.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value self.__dict__[index]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__iadd__">
+<code class="sig-name descname">__iadd__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__iadd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic addition with another Batch instance in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Batch or Number or np.number
+The other instance to add.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the addition.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__imul__">
+<code class="sig-name descname">__imul__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__imul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__imul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic multiplication with a scalar value in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The multiplication value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the multiplication.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__itruediv__">
+<code class="sig-name descname">__itruediv__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__itruediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__itruediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic division with a scalar value in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The division value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the division.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/common/batch.html#Batch.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns len(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__mul__">
+<code class="sig-name descname">__mul__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic multiplication with a scalar value out-of-place. Here the func utilizes the copy.deepcopy()
+since the Batch is based on the dict which will be changed when as a input to a certain func.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The multiplication value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>new_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the multiplication.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/common/batch.html#Batch.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__setattr__">
+<code class="sig-name descname">__setattr__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.__setattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">self.key</span> <span class="pre">=</span> <span class="pre">value</span></code> will call this func.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__setitem__">
+<code class="sig-name descname">__setitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign value to self[index]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.__truediv__">
+<code class="sig-name descname">__truediv__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__truediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.__truediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic division with a scalar value out-of-place. Here the func utilizes the copy.deepcopy()
+since the Batch is based on the dict which will be changed when as a input to a certain func.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The division value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the division.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch._cat">
+<code class="sig-name descname">_cat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">lens</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch._cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch._cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate a list of Batch() objects into self.__dict__.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batches</strong> – list[dict or Batch]
+The batches to concatenate.</p></li>
+<li><p><strong>lens</strong> – list[int]
+The lengths of each batch in batches.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch._getKeys">
+<code class="sig-name descname">_getKeys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch._getKeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch._getKeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the keys to several different sets.</p>
+<ol class="loweralpha simple">
+<li><p>all keys</p></li>
+<li><p>keys that are in all batches and is not empty.</p></li>
+<li><p>keys that are reserved in all batches (i.e. empty Batch())</p></li>
+<li><p>keys that occur only in some batches, but not all.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batches</strong> – list[dict or Batch]
+The batches’ keys will be divided into several sets.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>keys_total</em> –</p>
+<dl class="simple">
+<dt>set[str]</dt><dd><p>All keys in the batches.</p>
+</dd>
+<dt>keys_shared: set[str]</dt><dd><p>keys that are in all batches and is not empty.</p>
+</dd>
+<dt>keys_reserve: set[str]</dt><dd><p>keys that are reserved in all batches (i.e. empty Batch())</p>
+</dd>
+<dt>keys_partial: set[str]</dt><dd><p>keys that occur only in some batches, but not all.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.append">
+<em class="property">static </em><code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append new data to the target batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> – Batch
+The target batch.</p></li>
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to append after the current batch.</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.append_(obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>appended_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The target batch after the append operation.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.append_">
+<code class="sig-name descname">append_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.append_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.append_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append new data to the current batch. (The data should be only one batch or dict, with the first dimension as batch_size)</p>
+<p>Note: The new data must have the same keys as the data in the batch. The missing key will cause
+the missing value in the key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to append after the current batch.</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.append_(obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.cat">
+<em class="property">static </em><code class="sig-name descname">cat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate a list of Batch() objects into a single new batch. For keys that are not shared across
+all batches, batches that do not have these keys will be padded by zeros with appropriate shapes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to concatenate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.cat_">
+<code class="sig-name descname">cat_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.cat_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.cat_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate a list of (or one) Batch() objects into current batch. Calc the total length for the target
+final batch and then call func self._cat().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to concatenate, it does not contain the current batch yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.createEmptyBatch">
+<code class="sig-name descname">createEmptyBatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">sample_data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">unsqueeze</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/batch.html#Batch.createEmptyBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.createEmptyBatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new empty batch with the given sample_data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_size</strong> – int
+The maximum size of the new empty batch.</p></li>
+<li><p><strong>sample_data</strong> – dict or Batch
+The sample data. The shape can be [batch_size, feature_size, …] or [feature_size, …]</p></li>
+<li><p><strong>unsqueeze</strong> – bool, optional
+Whether to unsqueeze the first dimension to be the batch_size, defaults to False.
+E.g. similar to the var <cite>stack</cite> in func _createValue(), if the sample_data is [batch_size, feature_size, …](e.g. [1, 3, 5] or [N, 3, 5]),
+the <cite>unsqueeze</cite> should be <cite>False</cite>, else when the sample_data is [feature_size, …](e.g. [3, 5]), the <cite>unsqueeze</cite> should be <cite>True</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.empty">
+<em class="property">static </em><code class="sig-name descname">empty</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an empty Batch() object with 0 or <code class="docutils literal notranslate"><span class="pre">None</span></code> filled, the shape is the same as the given Batch().
+If <code class="docutils literal notranslate"><span class="pre">index</span></code> is specified, it will only reset the specific indexed-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – str or slice or int or np.integer or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will empty the whole Batch().</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>empty_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>A new empty Batch with 0 or <code class="docutils literal notranslate"><span class="pre">None</span></code> filled, the shape is the same as the given Batch().</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.empty_">
+<code class="sig-name descname">empty_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.empty_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.empty_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an empty Batch() object (empty the current batch) with 0 or <code class="docutils literal notranslate"><span class="pre">None</span></code> filled. If <code class="docutils literal notranslate"><span class="pre">index</span></code> is
+specified, it will only reset the specific indexed-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – str or slice or int or np.integer or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will empty the whole Batch().</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>empty_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch after the empty operation.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>e.g.:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">empty_</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: array([[0., 0.],</span>
+<span class="go">              [0., 0.]]),</span>
+<span class="go">    b: array([None, None], dtype=object),</span>
+<span class="go">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;st&#39;</span><span class="p">],</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">Batch(</span>
+<span class="go">    a: array([False,  True]),</span>
+<span class="go">    b: Batch(</span>
+<span class="go">           c: array([None, &#39;st&#39;]),</span>
+<span class="go">           d: array([0., 0.]),</span>
+<span class="go">       ),</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../_modules/common/batch.html#Batch.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self[key] if key in self else default, default defaults to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.isEmpty">
+<code class="sig-name descname">isEmpty</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">recurse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#Batch.isEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.isEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if a Batch is empty. When <code class="docutils literal notranslate"><span class="pre">recurse</span> <span class="pre">=</span> <span class="pre">True</span></code>, it further tests the values of the object,
+otherwise it only tests the existence of any key.</p>
+<p>a) <code class="docutils literal notranslate"><span class="pre">b.isEmpty(recurse=True)</span></code> is mainly used to distinguish <code class="docutils literal notranslate"><span class="pre">Batch(a=Batch(a=Batch()))</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Batch(a=1)</span></code>. They both raise exceptions when applied to <code class="docutils literal notranslate"><span class="pre">len()</span></code>, but the former
+can be used in <code class="docutils literal notranslate"><span class="pre">cat</span></code>, while the latter is a scalar and cannot be used in <code class="docutils literal notranslate"><span class="pre">cat</span></code>.
+b) Another usage is in <code class="docutils literal notranslate"><span class="pre">__len__</span></code>, where we have to skip checking the length of recursively empty Batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>recurse</strong> – bool
+Whether to tests the values of the objects, defaults to False.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>is_empty</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the Batch is empty.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>e.g.:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">()</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">Batch</span><span class="p">(),</span> <span class="n">b</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">Batch</span><span class="p">()))</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">Batch</span><span class="p">(),</span> <span class="n">b</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">Batch</span><span class="p">()))</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.items">
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[Tuple(str, Any)]<a class="reference internal" href="../_modules/common/batch.html#Batch.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.items() as a list of items.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.keys() as a list of keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../_modules/common/batch.html#Batch.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns and removes self[key] if k in self else default, default defaults to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.shape">
+<em class="property">property </em><code class="sig-name descname">shape</code><a class="headerlink" href="#common.batch.Batch.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.shape</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.batch.Batch.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size, i.e. len(self)</p>
+<dl class="simple">
+<dt>Note: If the _init_type == ‘whole_data’, it will return the len(self) which will be the minimal size of the</dt><dd><p>values. When the _init_type == ‘sample_data’, it will return the maximal size of the non-empty values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.split">
+<code class="sig-name descname">split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">shuffle</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">merge_last</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch.split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split whole data into multiple small batches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – int
+Divide the data batch with the given size, but one batch if the length of the batch is smaller than <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p></li>
+<li><p><strong>shuffle</strong> – bool, optional
+Randomly shuffle the entire data batch if it is True, otherwise remain in the same, defaults to True.</p></li>
+<li><p><strong>merge_last</strong> – bool, optional
+Merge the last batch into the previous one, defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>e.g.:</dt><dd><dl class="simple">
+<dt>for small_batch in batch.split(size=5):</dt><dd><p>…</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.stack">
+<em class="property">static </em><code class="sig-name descname">stack</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">axis</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stack a list of Batch() objects into a single new batch. For keys that are not shared across all batches,
+batches that do not have these keys will be padded with zeros.</p>
+<dl class="simple">
+<dt>Note: If there are keys that are not shared across all batches, func stack() with <code class="docutils literal notranslate"><span class="pre">axis</span> <span class="pre">!=</span> <span class="pre">0</span></code> is undefined,</dt><dd><p>and will cause an exception.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to stack.</p></li>
+<li><p><strong>axis</strong> – int, optional
+The stack axis, defined similarly to torch, defaults to 0.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>e.g.:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="n">common</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]),</span> <span class="n">common</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Batch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4, 6)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4, 5)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.stack_">
+<code class="sig-name descname">stack_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">axis</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.stack_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.stack_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stack a list (or one) of Batch/dict objects into current batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to stack.</p></li>
+<li><p><strong>axis</strong> – int, optional
+The stack axis, defined similarly to torch, defaults to 0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.to">
+<code class="sig-name descname">to</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'cpu'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer the data to the target device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – str or int or torch.device, optional
+The target device, defaults to ‘cpu’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.to_numpy">
+<code class="sig-name descname">to_numpy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.to_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.to_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change all torch.Tensor to numpy.ndarray. This is an in-place operation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.to_torch">
+<code class="sig-name descname">to_torch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dtype</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.dtype<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'cpu'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.to_torch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.to_torch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change all numpy.ndarray(except dtype==np.object) to torch.Tensor. This is an in-place operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dtype</strong> – torch.dtype, optional
+The target dtype, defaults to None.</p></li>
+<li><p><strong>device</strong> – str or int or torch.device, optional
+The target device, defaults to ‘cpu’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.update">
+<em class="property">static </em><code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the target Batch from the given data and index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> – Batch
+The target batch.</p></li>
+<li><p><strong>index</strong> – str, slice or int or np.integer or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will update the whole Batch().</p></li>
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to update the current data</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.update_(index=…, obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.update_">
+<code class="sig-name descname">update_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>slice<span class="p">, </span>int<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">, </span>Tuple<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.update_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.update_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the current Batch from the data.</p>
+<p>Note: Please make sure none of the value in the data is Batch() or it may lead to undefined behaviors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – slice or int or or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will update the whole Batch().</p></li>
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to update the current data</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.update_(index=…, obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.batch.Batch.values">
+<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Any<span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch.Batch.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.values() as a list of values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._assertKeysType">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_assertKeysType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keys</span><span class="p">:</span> <span class="n">any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#_assertKeysType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._assertKeysType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert the given keys are string types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>keys</strong> – any
+The given keys from the dict.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._convertToArray">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_convertToArray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="reference internal" href="../_modules/common/batch.html#_convertToArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._convertToArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the value to np.ndarray with correct type.</p>
+<p>Convert to np.object data type if neither bool nor number. Raises an exception if array’s elements are tensors themself</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – any
+The value to convert.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>v_array</em> –</p>
+<dl class="simple">
+<dt>np.ndarray</dt><dd><p>The converted value.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._createValue">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_createValue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inst</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">stack</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>numpy.ndarray<span class="p">, </span>torch.Tensor<span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#_createValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._createValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Batch or numpy.ndarray or torch.Tensor to receive the data from batches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inst</strong> – any
+The instance of the data from the batches.</p></li>
+<li><p><strong>size</strong> – int
+The target size of the var.</p></li>
+<li><p><strong>stack</strong> – bool, optional
+whether to stack or to concatenate, defaults to True.
+E.g. if inst has shape of (3, 5), size = 10, stack=True returns an np.ndarry
+with shape of (10, 3, 5), otherwise (10, 5)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>var_with_shape</em> –</p>
+<dl class="simple">
+<dt>Batch or np.ndarray or torch.Tensor</dt><dd><p>The new variable with size to store the data from the batches.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._isBatchSet">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_isBatchSet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#_isBatchSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._isBatchSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the data is BatchSet.</p>
+<p>Batch set is a list/tuple of dict/Batch objects, or 1-D np.ndarray with np.object type,
+where each element is a dict/Batch object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – any
+The data which needs to be checked.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>is_batch_set</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the data is a batch set or not.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._isNumber">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_isNumber</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#_isNumber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._isNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the value is a number.</p>
+<ol class="loweralpha simple">
+<li><p>isinstance(value, Number) checks 1, 1.0, np.int(1), np.float(1.0), etc.</p></li>
+<li><p>isinstance(value, np.number) checks np.int32(1), np.float64(1.0), etc.</p></li>
+<li><p>isinstance(value, <a href="#id1"><span class="problematic" id="id2">np.bool_</span></a>) checks np.bool_(True), etc.</p></li>
+<li><p>similar to np.isscalar but np.isscalar(‘st’) returns True</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – any
+The value to convert.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>is_number</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the value is a number or not.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._isScalar">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_isScalar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#_isScalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._isScalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the value is a scalar.</p>
+<ol class="loweralpha simple">
+<li><p>python bool object, number object: isinstance(value, Number)</p></li>
+<li><p>numpy scalar: isinstance(value, np.generic)</p></li>
+<li><p>python object rather than dict / Batch / tensor</p></li>
+<li><p>the check of dict / Batch is omitted because this only checks a value and a dict / Batch will eventually
+check their values</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.batch._parseValue">
+<code class="sig-prename descclassname">common.batch.</code><code class="sig-name descname">_parseValue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/batch.html#_parseValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.batch._parseValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the values for the dict to Batch or torch.Tensor.</p>
+<ol class="loweralpha simple">
+<li><p>dict -&gt; Batch</p></li>
+<li><p>Batch, torch.Tensor -&gt; pass</p></li>
+<li><p>np.ndarray/Collection -&gt; np.ndarray</p></li>
+<li><p>BatchSet[dict, Batch] -&gt; Batch</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – any
+The value from the dict.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-common.replay_buffer">
+<span id="common-replay-buffer-module"></span><h2>common.replay_buffer module<a class="headerlink" href="#module-common.replay_buffer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="common.replay_buffer.ReplayBufferBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.replay_buffer.</code><code class="sig-name descname">ReplayBufferBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">buffer_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'cpu'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.ReplayBufferBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="common.replay_buffer.ReplayBufferBase.canSample">
+<code class="sig-name descname">canSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase.canSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.ReplayBufferBase.canSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert whether the data in the buffer is enough to be sampled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>can_sample</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the number of data is larger than the batch_size.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.ReplayBufferBase.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.ReplayBufferBase.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a batch data to the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> – Batch
+The data batch. (usually the episode data batch)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.ReplayBufferBase.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.ReplayBufferBase.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the batch from the buffer according to the batch_size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>sampled_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The sampled mini-batch.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.ReplayBufferBase.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.replay_buffer.ReplayBufferBase.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.replay_buffer.SampleReplayBuffer">
+<em class="property">class </em><code class="sig-prename descclassname">common.replay_buffer.</code><code class="sig-name descname">SampleReplayBuffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.SampleReplayBuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.replay_buffer.ReplayBufferBase" title="common.replay_buffer.ReplayBufferBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.replay_buffer.ReplayBufferBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.replay_buffer.SampleReplayBuffer.canSample">
+<code class="sig-name descname">canSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer.canSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.SampleReplayBuffer.canSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert whether the data in the buffer is enough to be sampled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>can_sample</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the number of data is larger than the batch_size.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.SampleReplayBuffer.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.SampleReplayBuffer.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a batch data to the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> – Batch
+The data batch. (usually the episode data batch)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.SampleReplayBuffer.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.SampleReplayBuffer.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the batch from the buffer according to the batch_size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>sampled_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The sampled mini-batch.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.SampleReplayBuffer.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.replay_buffer.SampleReplayBuffer.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.replay_buffer.TrajectoryReplayBuffer">
+<em class="property">class </em><code class="sig-prename descclassname">common.replay_buffer.</code><code class="sig-name descname">TrajectoryReplayBuffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.TrajectoryReplayBuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.replay_buffer.ReplayBufferBase" title="common.replay_buffer.ReplayBufferBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.replay_buffer.ReplayBufferBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.replay_buffer.TrajectoryReplayBuffer.canSample">
+<code class="sig-name descname">canSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer.canSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.TrajectoryReplayBuffer.canSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert whether the data in the buffer is enough to be sampled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>can_sample</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the number of data is larger than the batch_size.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.TrajectoryReplayBuffer.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.TrajectoryReplayBuffer.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a batch data to the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> – Batch
+The data batch. (usually the episode data batch)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.TrajectoryReplayBuffer.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.replay_buffer.TrajectoryReplayBuffer.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the batch from the buffer according to the batch_size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>mini_batch</em> –</p>
+<dl class="simple">
+<dt>List[Batch]</dt><dd><p>The sampled mini-batch, which is a list of Batch objects.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.replay_buffer.TrajectoryReplayBuffer.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.replay_buffer.TrajectoryReplayBuffer.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-common">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-common" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="common.Batch">
+<em class="property">class </em><code class="sig-prename descclassname">common.</code><code class="sig-name descname">Batch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_dict</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.Batch" title="common.Batch">Batch</a><span class="p">, </span>BatchSet<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'whole_data'</span></em>, <em class="sig-param"><span class="n">max_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sample_data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.Batch" title="common.Batch">Batch</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unsqueeze</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>bool<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">copy</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/batch.html#Batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The Batch class is for the internal data structure to pass any kind of data to other methods.</p>
+<dl class="py method">
+<dt id="common.Batch.__add__">
+<code class="sig-name descname">__add__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic addition with another Batch instance out-of-place. Here the func utilizes the copy.deepcopy()
+since the Batch is based on the dict which will be changed when as a input to a certain func.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Batch or Number or np.number
+The other instance to add.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>new_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the addition.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#Batch.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns key in self.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value self.__dict__[index]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__iadd__">
+<code class="sig-name descname">__iadd__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__iadd__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic addition with another Batch instance in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Batch or Number or np.number
+The other instance to add.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the addition.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__imul__">
+<code class="sig-name descname">__imul__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__imul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__imul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic multiplication with a scalar value in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The multiplication value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the multiplication.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__itruediv__">
+<code class="sig-name descname">__itruediv__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__itruediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__itruediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic division with a scalar value in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The division value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the division.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/common/batch.html#Batch.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns len(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__mul__">
+<code class="sig-name descname">__mul__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic multiplication with a scalar value out-of-place. Here the func utilizes the copy.deepcopy()
+since the Batch is based on the dict which will be changed when as a input to a certain func.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The multiplication value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>new_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the multiplication.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/common/batch.html#Batch.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__setattr__">
+<code class="sig-name descname">__setattr__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.__setattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value.</p>
+<p><code class="docutils literal notranslate"><span class="pre">self.key</span> <span class="pre">=</span> <span class="pre">value</span></code> will call this func.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__setitem__">
+<code class="sig-name descname">__setitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assign value to self[index]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.__truediv__">
+<code class="sig-name descname">__truediv__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>numbers.Number<span class="p">, </span>numpy.number<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.__truediv__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.__truediv__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Algebraic division with a scalar value out-of-place. Here the func utilizes the copy.deepcopy()
+since the Batch is based on the dict which will be changed when as a input to a certain func.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Number or np.number
+The division value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>self</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch data after the division.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch._cat">
+<code class="sig-name descname">_cat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">lens</span><span class="p">:</span> <span class="n">List<span class="p">[</span>int<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch._cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch._cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate a list of Batch() objects into self.__dict__.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batches</strong> – list[dict or Batch]
+The batches to concatenate.</p></li>
+<li><p><strong>lens</strong> – list[int]
+The lengths of each batch in batches.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch._getKeys">
+<code class="sig-name descname">_getKeys</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">, </span>Set<span class="p">[</span>str<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch._getKeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch._getKeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the keys to several different sets.</p>
+<ol class="loweralpha simple">
+<li><p>all keys</p></li>
+<li><p>keys that are in all batches and is not empty.</p></li>
+<li><p>keys that are reserved in all batches (i.e. empty Batch())</p></li>
+<li><p>keys that occur only in some batches, but not all.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batches</strong> – list[dict or Batch]
+The batches’ keys will be divided into several sets.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>keys_total</em> –</p>
+<dl class="simple">
+<dt>set[str]</dt><dd><p>All keys in the batches.</p>
+</dd>
+<dt>keys_shared: set[str]</dt><dd><p>keys that are in all batches and is not empty.</p>
+</dd>
+<dt>keys_reserve: set[str]</dt><dd><p>keys that are reserved in all batches (i.e. empty Batch())</p>
+</dd>
+<dt>keys_partial: set[str]</dt><dd><p>keys that occur only in some batches, but not all.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.append">
+<em class="property">static </em><code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append new data to the target batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> – Batch
+The target batch.</p></li>
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to append after the current batch.</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.append_(obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>appended_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The target batch after the append operation.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.append_">
+<code class="sig-name descname">append_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.append_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.append_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append new data to the current batch. (The data should be only one batch or dict, with the first dimension as batch_size)</p>
+<p>Note: The new data must have the same keys as the data in the batch. The missing key will cause
+the missing value in the key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to append after the current batch.</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.append_(obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.cat">
+<em class="property">static </em><code class="sig-name descname">cat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate a list of Batch() objects into a single new batch. For keys that are not shared across
+all batches, batches that do not have these keys will be padded by zeros with appropriate shapes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to concatenate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.cat_">
+<code class="sig-name descname">cat_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.cat_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.cat_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate a list of (or one) Batch() objects into current batch. Calc the total length for the target
+final batch and then call func self._cat().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to concatenate, it does not contain the current batch yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.createEmptyBatch">
+<code class="sig-name descname">createEmptyBatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">sample_data</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">unsqueeze</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/batch.html#Batch.createEmptyBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.createEmptyBatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new empty batch with the given sample_data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_size</strong> – int
+The maximum size of the new empty batch.</p></li>
+<li><p><strong>sample_data</strong> – dict or Batch
+The sample data. The shape can be [batch_size, feature_size, …] or [feature_size, …]</p></li>
+<li><p><strong>unsqueeze</strong> – bool, optional
+Whether to unsqueeze the first dimension to be the batch_size, defaults to False.
+E.g. similar to the var <cite>stack</cite> in func _createValue(), if the sample_data is [batch_size, feature_size, …](e.g. [1, 3, 5] or [N, 3, 5]),
+the <cite>unsqueeze</cite> should be <cite>False</cite>, else when the sample_data is [feature_size, …](e.g. [3, 5]), the <cite>unsqueeze</cite> should be <cite>True</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.empty">
+<em class="property">static </em><code class="sig-name descname">empty</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an empty Batch() object with 0 or <code class="docutils literal notranslate"><span class="pre">None</span></code> filled, the shape is the same as the given Batch().
+If <code class="docutils literal notranslate"><span class="pre">index</span></code> is specified, it will only reset the specific indexed-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – str or slice or int or np.integer or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will empty the whole Batch().</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>empty_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>A new empty Batch with 0 or <code class="docutils literal notranslate"><span class="pre">None</span></code> filled, the shape is the same as the given Batch().</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.empty_">
+<code class="sig-name descname">empty_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.empty_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.empty_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an empty Batch() object (empty the current batch) with 0 or <code class="docutils literal notranslate"><span class="pre">None</span></code> filled. If <code class="docutils literal notranslate"><span class="pre">index</span></code> is
+specified, it will only reset the specific indexed-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – str or slice or int or np.integer or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will empty the whole Batch().</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>empty_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The batch after the empty operation.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>e.g.:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">empty_</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: array([[0., 0.],</span>
+<span class="go">              [0., 0.]]),</span>
+<span class="go">    b: array([None, None], dtype=object),</span>
+<span class="go">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;st&#39;</span><span class="p">],</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Batch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span>
+<span class="go">Batch(</span>
+<span class="go">    a: array([False,  True]),</span>
+<span class="go">    b: Batch(</span>
+<span class="go">           c: array([None, &#39;st&#39;]),</span>
+<span class="go">           d: array([0., 0.]),</span>
+<span class="go">       ),</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../_modules/common/batch.html#Batch.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self[key] if key in self else default, default defaults to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.isEmpty">
+<code class="sig-name descname">isEmpty</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">recurse</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/batch.html#Batch.isEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.isEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if a Batch is empty. When <code class="docutils literal notranslate"><span class="pre">recurse</span> <span class="pre">=</span> <span class="pre">True</span></code>, it further tests the values of the object,
+otherwise it only tests the existence of any key.</p>
+<p>a) <code class="docutils literal notranslate"><span class="pre">b.isEmpty(recurse=True)</span></code> is mainly used to distinguish <code class="docutils literal notranslate"><span class="pre">Batch(a=Batch(a=Batch()))</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Batch(a=1)</span></code>. They both raise exceptions when applied to <code class="docutils literal notranslate"><span class="pre">len()</span></code>, but the former
+can be used in <code class="docutils literal notranslate"><span class="pre">cat</span></code>, while the latter is a scalar and cannot be used in <code class="docutils literal notranslate"><span class="pre">cat</span></code>.
+b) Another usage is in <code class="docutils literal notranslate"><span class="pre">__len__</span></code>, where we have to skip checking the length of recursively empty Batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>recurse</strong> – bool
+Whether to tests the values of the objects, defaults to False.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>is_empty</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the Batch is empty.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<dl>
+<dt>e.g.:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">()</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">Batch</span><span class="p">(),</span> <span class="n">b</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">Batch</span><span class="p">()))</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">Batch</span><span class="p">(),</span> <span class="n">b</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">Batch</span><span class="p">()))</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.items">
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[Tuple(str, Any)]<a class="reference internal" href="../_modules/common/batch.html#Batch.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.items() as a list of items.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.keys() as a list of keys.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.pop">
+<code class="sig-name descname">pop</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">default</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Any<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="reference internal" href="../_modules/common/batch.html#Batch.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns and removes self[key] if k in self else default, default defaults to None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.shape">
+<em class="property">property </em><code class="sig-name descname">shape</code><a class="headerlink" href="#common.Batch.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.shape</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.Batch.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size, i.e. len(self)</p>
+<dl class="simple">
+<dt>Note: If the _init_type == ‘whole_data’, it will return the len(self) which will be the minimal size of the</dt><dd><p>values. When the _init_type == ‘sample_data’, it will return the maximal size of the non-empty values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.split">
+<code class="sig-name descname">split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">shuffle</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">merge_last</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch.split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split whole data into multiple small batches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – int
+Divide the data batch with the given size, but one batch if the length of the batch is smaller than <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p></li>
+<li><p><strong>shuffle</strong> – bool, optional
+Randomly shuffle the entire data batch if it is True, otherwise remain in the same, defaults to True.</p></li>
+<li><p><strong>merge_last</strong> – bool, optional
+Merge the last batch into the previous one, defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>e.g.:</dt><dd><dl class="simple">
+<dt>for small_batch in batch.split(size=5):</dt><dd><p>…</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.stack">
+<em class="property">static </em><code class="sig-name descname">stack</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">axis</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stack a list of Batch() objects into a single new batch. For keys that are not shared across all batches,
+batches that do not have these keys will be padded with zeros.</p>
+<dl class="simple">
+<dt>Note: If there are keys that are not shared across all batches, func stack() with <code class="docutils literal notranslate"><span class="pre">axis</span> <span class="pre">!=</span> <span class="pre">0</span></code> is undefined,</dt><dd><p>and will cause an exception.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to stack.</p></li>
+<li><p><strong>axis</strong> – int, optional
+The stack axis, defined similarly to torch, defaults to 0.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>e.g.:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span> <span class="n">common</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]),</span> <span class="n">common</span><span class="o">=</span><span class="n">Batch</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Batch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4, 6)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 4, 5)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.stack_">
+<code class="sig-name descname">stack_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batches</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">axis</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.stack_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.stack_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stack a list (or one) of Batch/dict objects into current batch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batches</strong> – Batch or list[dict or Batch]
+The batches to stack.</p></li>
+<li><p><strong>axis</strong> – int, optional
+The stack axis, defined similarly to torch, defaults to 0.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.to">
+<code class="sig-name descname">to</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'cpu'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer the data to the target device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – str or int or torch.device, optional
+The target device, defaults to ‘cpu’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.to_numpy">
+<code class="sig-name descname">to_numpy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.to_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.to_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change all torch.Tensor to numpy.ndarray. This is an in-place operation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.to_torch">
+<code class="sig-name descname">to_torch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dtype</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>torch.dtype<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'cpu'</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.to_torch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.to_torch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change all numpy.ndarray(except dtype==np.object) to torch.Tensor. This is an in-place operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dtype</strong> – torch.dtype, optional
+The target dtype, defaults to None.</p></li>
+<li><p><strong>device</strong> – str or int or torch.device, optional
+The target device, defaults to ‘cpu’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.update">
+<em class="property">static </em><code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>slice<span class="p">, </span>int<span class="p">, </span>numpy.integer<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/batch.html#Batch.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the target Batch from the given data and index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> – Batch
+The target batch.</p></li>
+<li><p><strong>index</strong> – str, slice or int or np.integer or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will update the whole Batch().</p></li>
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to update the current data</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.update_(index=…, obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.update_">
+<code class="sig-name descname">update_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>slice<span class="p">, </span>int<span class="p">, </span>numpy.ndarray<span class="p">, </span>List<span class="p">[</span>int<span class="p">]</span><span class="p">, </span>Tuple<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dict<span class="p">, </span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/batch.html#Batch.update_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.update_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the current Batch from the data.</p>
+<p>Note: Please make sure none of the value in the data is Batch() or it may lead to undefined behaviors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> – slice or int or or np.ndarray or list[int], optional
+To specify the indexed-data, defaults to None and will update the whole Batch().</p></li>
+<li><p><strong>data</strong> – dict or Batch, optional
+The target data to update the current data</p></li>
+<li><p><strong>kwargs</strong> – The internal data dict. e.g.: Batch.update_(index=…, obs=…, action=…, …)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.Batch.values">
+<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Any<span class="p">]</span><a class="reference internal" href="../_modules/common/batch.html#Batch.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.Batch.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns self.values() as a list of values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.ReplayBufferBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.</code><code class="sig-name descname">ReplayBufferBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">buffer_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">, </span>torch.device<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'cpu'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.ReplayBufferBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="common.ReplayBufferBase.canSample">
+<code class="sig-name descname">canSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase.canSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.ReplayBufferBase.canSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert whether the data in the buffer is enough to be sampled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>can_sample</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the number of data is larger than the batch_size.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.ReplayBufferBase.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.ReplayBufferBase.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a batch data to the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> – Batch
+The data batch. (usually the episode data batch)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.ReplayBufferBase.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/replay_buffer.html#ReplayBufferBase.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.ReplayBufferBase.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the batch from the buffer according to the batch_size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>sampled_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The sampled mini-batch.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.ReplayBufferBase.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.ReplayBufferBase.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.SampleReplayBuffer">
+<em class="property">class </em><code class="sig-prename descclassname">common.</code><code class="sig-name descname">SampleReplayBuffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.SampleReplayBuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.replay_buffer.ReplayBufferBase" title="common.replay_buffer.ReplayBufferBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.replay_buffer.ReplayBufferBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.SampleReplayBuffer.canSample">
+<code class="sig-name descname">canSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer.canSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.SampleReplayBuffer.canSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert whether the data in the buffer is enough to be sampled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>can_sample</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the number of data is larger than the batch_size.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.SampleReplayBuffer.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.SampleReplayBuffer.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a batch data to the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> – Batch
+The data batch. (usually the episode data batch)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.SampleReplayBuffer.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><a class="reference internal" href="../_modules/common/replay_buffer.html#SampleReplayBuffer.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.SampleReplayBuffer.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the batch from the buffer according to the batch_size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>sampled_batch</em> –</p>
+<dl class="simple">
+<dt>Batch</dt><dd><p>The sampled mini-batch.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.SampleReplayBuffer.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.SampleReplayBuffer.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.TrajectoryReplayBuffer">
+<em class="property">class </em><code class="sig-prename descclassname">common.</code><code class="sig-name descname">TrajectoryReplayBuffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.TrajectoryReplayBuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#common.replay_buffer.ReplayBufferBase" title="common.replay_buffer.ReplayBufferBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">common.replay_buffer.ReplayBufferBase</span></code></a></p>
+<dl class="py method">
+<dt id="common.TrajectoryReplayBuffer.canSample">
+<code class="sig-name descname">canSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer.canSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.TrajectoryReplayBuffer.canSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert whether the data in the buffer is enough to be sampled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>can_sample</em> –</p>
+<dl class="simple">
+<dt>bool</dt><dd><p>Whether the number of data is larger than the batch_size.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.TrajectoryReplayBuffer.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a></span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.TrajectoryReplayBuffer.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a batch data to the buffer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch</strong> – Batch
+The data batch. (usually the episode data batch)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.TrajectoryReplayBuffer.sample">
+<code class="sig-name descname">sample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#common.batch.Batch" title="common.batch.Batch">common.batch.Batch</a><span class="p">]</span><a class="reference internal" href="../_modules/common/replay_buffer.html#TrajectoryReplayBuffer.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.TrajectoryReplayBuffer.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample the batch from the buffer according to the batch_size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>batch_size</strong> – int
+The size of the sampled batch.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><em>mini_batch</em> –</p>
+<dl class="simple">
+<dt>List[Batch]</dt><dd><p>The sampled mini-batch, which is a list of Batch objects.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.TrajectoryReplayBuffer.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#common.TrajectoryReplayBuffer.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Joy Jiang.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Batch &mdash; MARL v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> MARL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">common</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">common</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MARL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Batch</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/common/batch.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="batch">
+<h1>Batch<a class="headerlink" href="#batch" title="Permalink to this headline">¶</a></h1>
+<p>Class <code class="docutils literal notranslate"><span class="pre">Batch</span></code> is the internal data structure with the characteristics of both <code class="docutils literal notranslate"><span class="pre">dict</span></code> and <code class="docutils literal notranslate"><span class="pre">tensor</span></code>.</p>
+<p>It is designed to store the multi-types (<code class="docutils literal notranslate"><span class="pre">numpy.ndarray,</span> <span class="pre">torch.Tensor</span></code>, etc.) of data obtained from the interaction with the environment.</p>
+<p>Meanwhile, it is used to package the data for transfer between clients and servers as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>we design the <code class="docutils literal notranslate"><span class="pre">Batch</span></code> with reference to <a class="reference external" href="https://github.com/thu-ml/tianshou">thu-ml/tianshou</a>.</p>
+</div>
+<div class="section" id="basic-usages">
+<h2>Basic Usages<a class="headerlink" href="#basic-usages" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="how-to-construct-a-new-batch-instance">
+<h3>How to construct a new <code class="docutils literal notranslate"><span class="pre">Batch</span></code> instance<a class="headerlink" href="#how-to-construct-a-new-batch-instance" title="Permalink to this headline">¶</a></h3>
+<p>There are two modes of the construction of <code class="docutils literal notranslate"><span class="pre">Batch</span></code>.</p>
+<p>One is to create an new <code class="docutils literal notranslate"><span class="pre">Batch</span></code> instance of a specified size from a given <code class="docutils literal notranslate"><span class="pre">sample_data</span></code>,
+and the other is to create it directly with all the data.</p>
+<div class="section" id="mode-init-type-sample-data">
+<h4>Mode <code class="docutils literal notranslate"><span class="pre">init_type</span> <span class="pre">=</span> <span class="pre">'sample_data'</span></code><a class="headerlink" href="#mode-init-type-sample-data" title="Permalink to this headline">¶</a></h4>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The arguments <code class="docutils literal notranslate"><span class="pre">max_size,</span> <span class="pre">sample_data,</span> <span class="pre">unsqueeze</span></code> are required in this case.
+All the values in the <code class="docutils literal notranslate"><span class="pre">sample_data</span></code> must can be converted to an <code class="docutils literal notranslate"><span class="pre">array</span></code>.</p>
+</div>
+<p>The construction of <code class="docutils literal notranslate"><span class="pre">Batch</span></code> will return a new instance with size = <code class="docutils literal notranslate"><span class="pre">max_size</span></code> which contains the keys in <code class="docutils literal notranslate"><span class="pre">sample_data</span></code> and all the values will be the default value(0, None, etc.).</p>
+<p>When the argument <code class="docutils literal notranslate"><span class="pre">unsqueeze</span> <span class="pre">=</span> <span class="pre">True</span></code>, all the values in the new instance will be expanded in the first dimension.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><strong>Construct Batch from the given ``sample_data``</strong></span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># unsqueeze = False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">init_type</span><span class="o">=</span><span class="s1">&#39;sample_data&#39;</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">max_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">sample_data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span>
+<span class="gp">... </span>                           <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+<span class="gp">... </span>                           <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: tensor([0., 0., 0.]),</span>
+<span class="go">    b: array([[0, 0],</span>
+<span class="go">              [0, 0],</span>
+<span class="go">              [0, 0]]),</span>
+<span class="go">    c: array([0, 0, 0]),</span>
+<span class="go">)</span>
+
+<span class="go">#----------------------------------------------------------------</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># unsqueeze = True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">init_type</span><span class="o">=</span><span class="s1">&#39;sample_data&#39;</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">max_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">sample_data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span>
+<span class="gp">... </span>                           <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+<span class="gp">... </span>                           <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span>
+<span class="gp">... </span>              <span class="n">unsqueeze</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: tensor([[0., 0.],</span>
+<span class="go">               [0., 0.],</span>
+<span class="go">               [0., 0.]]),</span>
+<span class="go">    b: array([[[0, 0]],</span>
+<span class="go">              [[0, 0]],</span>
+<span class="go">              [[0, 0]]]),</span>
+<span class="go">    c: array([[0, 0],</span>
+<span class="go">              [0, 0],</span>
+<span class="go">              [0, 0]]),</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="mode-init-type-whole-data">
+<h4>Mode <code class="docutils literal notranslate"><span class="pre">init_type</span> <span class="pre">=</span> <span class="pre">'whole_data'</span></code><a class="headerlink" href="#mode-init-type-whole-data" title="Permalink to this headline">¶</a></h4>
+<p>As opposed to the previous, here batch is used only as a storage carrier for the given data <code class="docutils literal notranslate"><span class="pre">batch_dict</span></code> or <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">Batch</span></code> only keeps the reference to the given data, but it can alse support data copying by set argument <code class="docutils literal notranslate"><span class="pre">copy</span> <span class="pre">=</span> <span class="pre">True</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><strong>Construct Batch from the given data</strong></span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># directly passing a dict object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span>
+<span class="gp">... </span>               <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]),</span>
+<span class="gp">... </span>               <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="s1">&#39;12&#39;</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;f1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: tensor([1., 2.]),</span>
+<span class="go">    b: array([[1, 2]]),</span>
+<span class="go">    c: array([1, 2]),</span>
+<span class="go">    d: 1,</span>
+<span class="go">    e: &#39;12&#39;,</span>
+<span class="go">    f: Batch(</span>
+<span class="go">           f1: 1,</span>
+<span class="go">       ),</span>
+<span class="go">)</span>
+
+<span class="go">#----------------------------------------------------------------</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># passing a list/tuple of dict/Batch (i.e. BatchSet)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># the missing keys will be filled with the default value</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">([{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])},</span>
+<span class="gp">... </span>               <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">]),</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="s1">&#39;hello&#39;</span><span class="p">}])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: array([1., 2.]),</span>
+<span class="go">    b: array([[1],</span>
+<span class="go">              [2]]),</span>
+<span class="go">    c: array([None, &#39;hello&#39;], dtype=object),</span>
+<span class="go">)</span>
+
+<span class="go">#----------------------------------------------------------------</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># construct a Batch with keyword arguments</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">]),</span> <span class="n">b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: tensor([1.]),</span>
+<span class="go">    b: array([1]),</span>
+<span class="go">    c: array([None], dtype=object),</span>
+<span class="go">)</span>
+
+<span class="go">#----------------------------------------------------------------</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># conbining keyword arguments and batch_dict works fine as well</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])},</span> <span class="n">c</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">Batch(</span>
+<span class="go">    a: tensor([1.]),</span>
+<span class="go">    b: array([1]),</span>
+<span class="go">    c: array([None], dtype=object),</span>
+<span class="go">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="data-manipulation">
+<h2>Data Manipulation<a class="headerlink" href="#data-manipulation" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Joy Jiang.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -82,9 +82,13 @@
               
             
             
-              <p class="caption"><span class="caption-text">common</span></p>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../common/modules.html">common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../internal%20docs/common/common_modules.html">Common</a></li>
 </ul>
 
             
@@ -174,8 +178,7 @@
 <span class="sd">    Assert the given keys are string types.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        keys: any</span>
-<span class="sd">            The given keys from the dict.</span>
+<span class="sd">        keys (any): The given keys from the dict.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;keys should all be string, but got </span><span class="si">{</span><span class="n">keys</span><span class="si">}</span><span class="s2">&quot;</span></div>
@@ -189,12 +192,10 @@
 <span class="sd">    where each element is a dict/Batch object.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data: any</span>
-<span class="sd">            The data which needs to be checked.</span>
+<span class="sd">        data (any): The data which needs to be checked.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        is_batch_set: bool</span>
-<span class="sd">            Whether the data is a batch set or not.</span>
+<span class="sd">        bool: Whether the data is a batch set or not.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">is_batch_set</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
@@ -219,12 +220,10 @@
 <span class="sd">    d) similar to np.isscalar but np.isscalar(&#39;st&#39;) returns True</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        v: any</span>
-<span class="sd">            The value to convert.</span>
+<span class="sd">        v (any): The value to convert.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        is_number: bool</span>
-<span class="sd">            Whether the value is a number or not.</span>
+<span class="sd">        bool: Whether the value is a number or not.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">))</span></div>
 
@@ -253,12 +252,10 @@
 <span class="sd">    Convert to np.object data type if neither bool nor number. Raises an exception if array&#39;s elements are tensors themself</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        v: any</span>
-<span class="sd">            The value to convert.</span>
+<span class="sd">        v (any): The value to convert.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns:</span>
-<span class="sd">        v_array: np.ndarray</span>
-<span class="sd">            The converted value.</span>
+<span class="sd">        np.ndarray: The converted value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># here when v is a scalar, we use [v]</span>
     <span class="c1"># if _isScalar(v):</span>
@@ -285,18 +282,14 @@
 <span class="sd">    Create a new Batch or numpy.ndarray or torch.Tensor to receive the data from batches.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        inst: any</span>
-<span class="sd">            The instance of the data from the batches.</span>
-<span class="sd">        size: int</span>
-<span class="sd">            The target size of the var.</span>
-<span class="sd">        stack: bool, optional</span>
-<span class="sd">            whether to stack or to concatenate, defaults to True.</span>
+<span class="sd">        inst (any): The instance of the data from the batches.</span>
+<span class="sd">        size (int): The target size of the var.</span>
+<span class="sd">        stack (bool or optional): whether to stack or to concatenate, defaults to True.</span>
 <span class="sd">            E.g. if inst has shape of (3, 5), size = 10, stack=True returns an np.ndarry</span>
 <span class="sd">            with shape of (10, 3, 5), otherwise (10, 5)</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        var_with_shape: Batch or np.ndarray or torch.Tensor</span>
-<span class="sd">            The new variable with size to store the data from the batches.</span>
+<span class="sd">        Batch or np.ndarray or torch.Tensor: The new variable with size to store the data from the batches.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">is_scalar</span> <span class="o">=</span> <span class="n">_isScalar</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
 
@@ -339,8 +332,7 @@
 <span class="sd">    d) BatchSet[dict, Batch] -&gt; Batch</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        v: any</span>
-<span class="sd">            The value from the dict.</span>
+<span class="sd">        v (any): The value from the dict.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -411,7 +403,12 @@
             <span class="k">if</span> <span class="n">sample_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">createEmptyBatch</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="n">sample_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">max_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">createEmptyBatch</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="n">_parseValue</span><span class="p">(</span><span class="n">sample_data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unsqueeze</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;When init_type is </span><span class="si">{</span><span class="n">init_type</span><span class="si">}</span><span class="s2">, max_size is required, but got </span><span class="si">{</span><span class="n">max_size</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sample data is not given!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The initial data type is not supported!&quot;</span><span class="p">)</span>
 
@@ -476,12 +473,10 @@
 <span class="sd">        Algebraic addition with another Batch instance in-place.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            other: Batch or Number or np.number</span>
-<span class="sd">                The other instance to add.</span>
+<span class="sd">            other (Batch or Number or np.number): The other instance to add.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self: Batch</span>
-<span class="sd">                The batch data after the addition.</span>
+<span class="sd">            Batch: The batch data after the addition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Batch</span><span class="p">):</span>
             <span class="c1"># check if the keys are consistent, which is not implemented in</span>
@@ -511,12 +506,10 @@
 <span class="sd">        since the Batch is based on the dict which will be changed when as a input to a certain func.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            other: Batch or Number or np.number</span>
-<span class="sd">                The other instance to add.</span>
+<span class="sd">            other (Batch or Number or np.number): The other instance to add.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            new_batch: Batch</span>
-<span class="sd">                The batch data after the addition.</span>
+<span class="sd">            Batch: The batch data after the addition.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__iadd__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
 
@@ -525,12 +518,10 @@
 <span class="sd">        Algebraic multiplication with a scalar value in-place.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value: Number or np.number</span>
-<span class="sd">                The multiplication value.</span>
+<span class="sd">            value (Number or np.number): The multiplication value.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self: Batch</span>
-<span class="sd">                The batch data after the multiplication.</span>
+<span class="sd">            Batch: The batch data after the multiplication.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;Only multiplication by a number is supported.&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -545,12 +536,10 @@
 <span class="sd">        since the Batch is based on the dict which will be changed when as a input to a certain func.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value: Number or np.number</span>
-<span class="sd">                The multiplication value.</span>
+<span class="sd">            value (Number or np.number): The multiplication value.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            new_batch: Batch</span>
-<span class="sd">                The batch data after the multiplication.</span>
+<span class="sd">            Batch: The batch data after the multiplication.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__imul__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -559,12 +548,10 @@
 <span class="sd">        Algebraic division with a scalar value in-place.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value: Number or np.number</span>
-<span class="sd">                The division value.</span>
+<span class="sd">            value (Number or np.number): The division value.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self: Batch</span>
-<span class="sd">                The batch data after the division.</span>
+<span class="sd">            Batch: The batch data after the division.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s2">&quot;Only division by a number is supported.&quot;</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -579,12 +566,10 @@
 <span class="sd">        since the Batch is based on the dict which will be changed when as a input to a certain func.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            value: Number or np.number</span>
-<span class="sd">                The division value.</span>
+<span class="sd">            value (Number or np.number): The division value.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            self: Batch</span>
-<span class="sd">                The batch data after the division.</span>
+<span class="sd">            Batch: The batch data after the division.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__itruediv__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -615,8 +600,8 @@
                 <span class="k">continue</span>
             <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">))</span> <span class="ow">or</span> <span class="n">v</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
                 <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="n">_isNumber</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_isScalar</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
-                <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># elif _isNumber(v) or _isScalar(v):</span>
+            <span class="c1">#     r.append(1)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Object </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> has no len()&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -635,12 +620,9 @@
 <span class="sd">        Create a new empty batch with the given sample_data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            max_size: int</span>
-<span class="sd">                The maximum size of the new empty batch.</span>
-<span class="sd">            sample_data: dict or Batch</span>
-<span class="sd">                The sample data. The shape can be [batch_size, feature_size, ...] or [feature_size, ...]</span>
-<span class="sd">            unsqueeze: bool, optional</span>
-<span class="sd">                Whether to unsqueeze the first dimension to be the batch_size, defaults to False.</span>
+<span class="sd">            max_size (int): The maximum size of the new empty batch.</span>
+<span class="sd">            sample_data (dict or Batch): The sample data. The shape can be [batch_size, feature_size, ...] or [feature_size, ...]</span>
+<span class="sd">            unsqueeze (bool, optional): Whether to unsqueeze the first dimension to be the batch_size, defaults to False.</span>
 <span class="sd">                E.g. similar to the var `stack` in func _createValue(), if the sample_data is [batch_size, feature_size, ...](e.g. [1, 3, 5] or [N, 3, 5]),</span>
 <span class="sd">                the `unsqueeze` should be `False`, else when the sample_data is [feature_size, ...](e.g. [3, 5]), the `unsqueeze` should be `True`.</span>
 <span class="sd">                </span>
@@ -654,7 +636,9 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)):</span>
             <span class="n">_assertKeysType</span><span class="p">(</span><span class="n">sample_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sample_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
                 <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">_createValue</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">max_size</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="n">unsqueeze</span><span class="p">)</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sample_data should be a dict or a Batch&quot;</span><span class="p">)</span></div>
 
@@ -706,10 +690,8 @@
 <span class="sd">        Change all numpy.ndarray(except dtype==np.object) to torch.Tensor. This is an in-place operation.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            dtype: torch.dtype, optional</span>
-<span class="sd">                The target dtype, defaults to None.</span>
-<span class="sd">            device: str or int or torch.device, optional</span>
-<span class="sd">                The target device, defaults to &#39;cpu&#39;</span>
+<span class="sd">            dtype (torch.dtype, optional): The target dtype, defaults to None.</span>
+<span class="sd">            device (str or int or torch.device, optional): The target device, defaults to &#39;cpu&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
             <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
@@ -717,7 +699,7 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">dtype</span><span class="p">:</span>
-                    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">device</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">device</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
                     <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
@@ -737,7 +719,6 @@
                     <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Batch.to"><a class="viewcode-back" href="../../common/common.html#common.batch.Batch.to">[docs]</a>    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -745,8 +726,7 @@
 <span class="sd">        Transfer the data to the target device.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            device: str or int or torch.device, optional</span>
-<span class="sd">                The target device, defaults to &#39;cpu&#39;</span>
+<span class="sd">            device (str or int or torch.device, optional): The target device, defaults to &#39;cpu&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">):</span>
             <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
@@ -776,18 +756,13 @@
 <span class="sd">        d) keys that occur only in some batches, but not all.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batches: list[dict or Batch]</span>
-<span class="sd">                The batches&#39; keys will be divided into several sets.</span>
+<span class="sd">            batches (list[dict or Batch]): The batches&#39; keys will be divided into several sets.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            keys_total: set[str]</span>
-<span class="sd">                All keys in the batches.</span>
-<span class="sd">            keys_shared: set[str]</span>
-<span class="sd">                keys that are in all batches and is not empty.</span>
-<span class="sd">            keys_reserve: set[str]</span>
-<span class="sd">                keys that are reserved in all batches (i.e. empty Batch())</span>
-<span class="sd">            keys_partial: set[str]</span>
-<span class="sd">                keys that occur only in some batches, but not all.</span>
+<span class="sd">            (set[str], set[str], set[str], set[str]): keys_total--All keys in the batches, </span>
+<span class="sd">            keys_shared--keys that are in all batches and is not empty,</span>
+<span class="sd">            keys_reserve--keys that are reserved in all batches (i.e. empty Batch()),</span>
+<span class="sd">            keys_partial--keys that occur only in some batches, but not all.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># list of non-empty keys for each batch</span>
         <span class="n">keys_map</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">isEmpty</span><span class="p">()))</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">]</span>
@@ -808,10 +783,8 @@
 <span class="sd">        Concatenate a list of Batch() objects into self.__dict__.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batches: list[dict or Batch]</span>
-<span class="sd">                The batches to concatenate.</span>
-<span class="sd">            lens: list[int]</span>
-<span class="sd">                The lengths of each batch in batches.</span>
+<span class="sd">            batches (list[dict or Batch]): The batches to concatenate.</span>
+<span class="sd">            lens (list[int]): The lengths of each batch in batches.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">keys_total</span><span class="p">,</span> <span class="n">keys_shared</span><span class="p">,</span> <span class="n">keys_reserve</span><span class="p">,</span> <span class="n">keys_partial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getKeys</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
 
@@ -860,8 +833,7 @@
 <span class="sd">        final batch and then call func self._cat().</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batches: Batch or list[dict or Batch]</span>
-<span class="sd">                The batches to concatenate, it does not contain the current batch yet.</span>
+<span class="sd">            batches (Batch or list[dict or Batch]): The batches to concatenate, it does not contain the current batch yet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process the batches to a list of non-empty Batch() objects</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -896,8 +868,7 @@
 <span class="sd">        all batches, batches that do not have these keys will be padded by zeros with appropriate shapes.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batches: Batch or list[dict or Batch]</span>
-<span class="sd">                The batches to concatenate.</span>
+<span class="sd">            batches (Batch or list[dict or Batch]): The batches to concatenate.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">batch</span> <span class="o">=</span> <span class="n">Batch</span><span class="p">()</span>
         <span class="n">batch</span><span class="o">.</span><span class="n">cat_</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
@@ -908,10 +879,8 @@
 <span class="sd">        Stack a list (or one) of Batch/dict objects into current batch.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batches: Batch or list[dict or Batch]</span>
-<span class="sd">                The batches to stack.</span>
-<span class="sd">            axis: int, optional</span>
-<span class="sd">                The stack axis, defined similarly to torch, defaults to 0.</span>
+<span class="sd">            batches (Batch or list[dict or Batch]): The batches to stack.</span>
+<span class="sd">            axis (int, optional): The stack axis, defined similarly to torch, defaults to 0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># process the batches to a list of non-empty Batch() objects</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">Batch</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -969,10 +938,8 @@
 <span class="sd">              and will cause an exception.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batches: Batch or list[dict or Batch]</span>
-<span class="sd">                The batches to stack.</span>
-<span class="sd">            axis: int, optional</span>
-<span class="sd">                The stack axis, defined similarly to torch, defaults to 0.</span>
+<span class="sd">            batches (Batch or list[dict or Batch]): The batches to stack.</span>
+<span class="sd">            axis (int, optional): The stack axis, defined similarly to torch, defaults to 0.</span>
 
 <span class="sd">        e.g.:</span>
 <span class="sd">            &gt;&gt;&gt; a = Batch(a=np.zeros([4, 4]), common=Batch(c=np.zeros([4, 5])))</span>
@@ -995,12 +962,10 @@
 <span class="sd">        specified, it will only reset the specific indexed-data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            index: str or slice or int or np.integer or np.ndarray or list[int], optional</span>
-<span class="sd">                To specify the indexed-data, defaults to None and will empty the whole Batch().</span>
+<span class="sd">            index (str or slice or int or np.integer or np.ndarray or list[int], optional): To specify the indexed-data, defaults to None and will empty the whole Batch().</span>
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            empty_batch: Batch</span>
-<span class="sd">                The batch after the empty operation.</span>
+<span class="sd">            Batch: The batch after the empty operation.</span>
 
 <span class="sd">        e.g.:</span>
 <span class="sd">            &gt;&gt;&gt; data.empty_()</span>
@@ -1053,12 +1018,10 @@
 <span class="sd">        If ``index`` is specified, it will only reset the specific indexed-data.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            index: str or slice or int or np.integer or np.ndarray or list[int], optional</span>
-<span class="sd">                To specify the indexed-data, defaults to None and will empty the whole Batch().</span>
+<span class="sd">            index (str or slice or int or np.integer or np.ndarray or list[int], optional): To specify the indexed-data, defaults to None and will empty the whole Batch().</span>
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            empty_batch: Batch</span>
-<span class="sd">                A new empty Batch with 0 or ``None`` filled, the shape is the same as the given Batch().</span>
+<span class="sd">            Batch: A new empty Batch with 0 or ``None`` filled, the shape is the same as the given Batch().</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">empty_</span><span class="p">(</span><span class="n">index</span><span class="p">)</span></div>
 
@@ -1070,11 +1033,9 @@
 <span class="sd">        the missing value in the key.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data: dict or Batch, optional</span>
-<span class="sd">                The target data to append after the current batch.</span>
+<span class="sd">            data (dict or Batch, optional): The target data to append after the current batch.</span>
 <span class="sd">            </span>
-<span class="sd">            kwargs:</span>
-<span class="sd">                The internal data dict. e.g.: Batch.append_(obs=..., action=..., ...)</span>
+<span class="sd">            kwargs: The internal data dict. e.g.: Batch.append_(obs=..., action=..., ...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">append_</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1128,16 +1089,13 @@
 <span class="sd">        Append new data to the target batch.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batch: Batch</span>
-<span class="sd">                The target batch.</span>
-<span class="sd">            data:dict or Batch, optional</span>
-<span class="sd">                The target data to append after the current batch.</span>
+<span class="sd">            batch (Batch): The target batch.</span>
+<span class="sd">            data (dict or Batch, optional): The target data to append after the current batch.</span>
 <span class="sd">            </span>
-<span class="sd">            kwargs:</span>
-<span class="sd">                The internal data dict. e.g.: Batch.append_(obs=..., action=..., ...)</span>
+<span class="sd">            kwargs: The internal data dict. e.g.: Batch.append_(obs=..., action=..., ...)</span>
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            appended_batch: Batch</span>
-<span class="sd">                The target batch after the append operation.</span>
+<span class="sd">            Batch: The target batch after the append operation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">append_</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -1148,13 +1106,10 @@
 <span class="sd">        Note: Please make sure none of the value in the data is Batch() or it may lead to undefined behaviors.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            index: slice or int or or np.ndarray or list[int], optional</span>
-<span class="sd">                To specify the indexed-data, defaults to None and will update the whole Batch().</span>
-<span class="sd">            data: dict or Batch, optional</span>
-<span class="sd">                The target data to update the current data</span>
-
-<span class="sd">            kwargs:</span>
-<span class="sd">                The internal data dict. e.g.: Batch.update_(index=..., obs=..., action=..., ...)</span>
+<span class="sd">            index (slice or int or or np.ndarray or list[int], optional): To specify the indexed-data, defaults to None and will update the whole Batch().</span>
+<span class="sd">            data: (dict or Batch, optional): The target data to update the current data</span>
+<span class="sd">            </span>
+<span class="sd">            kwargs: The internal data dict. e.g.: Batch.update_(index=..., obs=..., action=..., ...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">update_</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
@@ -1195,6 +1150,8 @@
             <span class="n">max_new_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="n">max_new_index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">max_new_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The type of the index is not supported!&quot;</span><span class="p">)</span>
 
@@ -1209,15 +1166,11 @@
 <span class="sd">        Update the target Batch from the given data and index.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batch: Batch</span>
-<span class="sd">                The target batch.</span>
-<span class="sd">            index: str, slice or int or np.integer or np.ndarray or list[int], optional</span>
-<span class="sd">                To specify the indexed-data, defaults to None and will update the whole Batch().</span>
-<span class="sd">            data: dict or Batch, optional</span>
-<span class="sd">                The target data to update the current data</span>
+<span class="sd">            batch (Batch): The target batch.</span>
+<span class="sd">            index (str, slice or int or np.integer or np.ndarray or list[int], optional): To specify the indexed-data, defaults to None and will update the whole Batch().</span>
+<span class="sd">            data (dict or Batch, optional): The target data to update the current data</span>
 
-<span class="sd">            kwargs:</span>
-<span class="sd">                The internal data dict. e.g.: Batch.update_(index=..., obs=..., action=..., ...)</span>
+<span class="sd">            kwargs: The internal data dict. e.g.: Batch.update_(index=..., obs=..., action=..., ...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="o">.</span><span class="n">update_</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
 
@@ -1232,12 +1185,10 @@
 <span class="sd">        b) Another usage is in ``__len__``, where we have to skip checking the length of recursively empty Batch.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            recurse: bool</span>
-<span class="sd">                Whether to tests the values of the objects, defaults to False.</span>
+<span class="sd">            recurse (bool): Whether to tests the values of the objects, defaults to False.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            is_empty: bool</span>
-<span class="sd">                Whether the Batch is empty.</span>
+<span class="sd">            bool: Whether the Batch is empty.</span>
 
 <span class="sd">        e.g.:</span>
 <span class="sd">            &gt;&gt;&gt; Batch().isEmpty()</span>
@@ -1264,12 +1215,9 @@
 <span class="sd">        Split whole data into multiple small batches.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            size: int</span>
-<span class="sd">                Divide the data batch with the given size, but one batch if the length of the batch is smaller than ``size``.</span>
-<span class="sd">            shuffle: bool, optional</span>
-<span class="sd">                Randomly shuffle the entire data batch if it is True, otherwise remain in the same, defaults to True.</span>
-<span class="sd">            merge_last: bool, optional</span>
-<span class="sd">                Merge the last batch into the previous one, defaults to False.</span>
+<span class="sd">            size (int): Divide the data batch with the given size, but one batch if the length of the batch is smaller than ``size``.</span>
+<span class="sd">            shuffle (bool, optional): Randomly shuffle the entire data batch if it is True, otherwise remain in the same, defaults to True.</span>
+<span class="sd">            merge_last (bool, optional): Merge the last batch into the previous one, defaults to False.</span>
 
 <span class="sd">        e.g.:</span>
 <span class="sd">            for small_batch in batch.split(size=5):</span>

@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>common.models package &mdash; MARL v0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> MARL
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../internal%20docs/common/common_modules.html">common</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MARL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>common.models package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/common/common.models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-common.models">
+<span id="common-models-package"></span><h1>common.models package<a class="headerlink" href="#module-common.models" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="common.models.MLPBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.models.</code><code class="sig-name descname">MLPBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/models/mlp_nn.html#MLPBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.MLPBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">common.models.base_nn.NNBase</span></code></p>
+<p>The base mlp neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_inputs</strong> (<em>int</em>) – The input size.</p></li>
+<li><p><strong>num_outputs</strong> (<em>int</em>) – The output size.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The hidden size of the neural network, defaults to 64.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="common.models.MLPBase._createLayers">
+<code class="sig-name descname">_createLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/models/mlp_nn.html#MLPBase._createLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.MLPBase._createLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the network layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.MLPBase._initLayers">
+<code class="sig-name descname">_initLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/models/mlp_nn.html#MLPBase._initLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.MLPBase._initLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the network layers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>nn.init.kaiming_normal_() are recommanded to init the layers with ‘relu’ as the activation.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.MLPBase.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../_modules/common/models/mlp_nn.html#MLPBase.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.MLPBase.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>The foward function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>inputs</strong> (<em>torch.Tensor</em>) – The input tensor to forward.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>torch.Tensor</em> – The output tensor after the forward operation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.models.NNBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.models.</code><code class="sig-name descname">NNBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_inputs</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">num_outputs</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">64</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/models/base_nn.html#NNBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.NNBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<p>The base class for neural network in MARL Platform and can’t be used directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_inputs</strong> (<em>int</em>) – The input size.</p></li>
+<li><p><strong>num_outputs</strong> (<em>int</em>) – The output size.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The hidden size of the neural network, defaults to 64.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="common.models.NNBase._createLayers">
+<code class="sig-name descname">_createLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/models/base_nn.html#NNBase._createLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.NNBase._createLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the network layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.NNBase._initLayers">
+<code class="sig-name descname">_initLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; NoReturn<a class="reference internal" href="../_modules/common/models/base_nn.html#NNBase._initLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.NNBase._initLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the network layers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>nn.init.kaiming_normal_() are recommanded to init the layers with ‘relu’ as the activation.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.NNBase.hidden_size">
+<em class="property">property </em><code class="sig-name descname">hidden_size</code><a class="headerlink" href="#common.models.NNBase.hidden_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains the hidden size of the neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>int</em> – The hidden size of the neural network.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.NNBase.num_inputs">
+<em class="property">property </em><code class="sig-name descname">num_inputs</code><a class="headerlink" href="#common.models.NNBase.num_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains the input size of the neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>int</em> – The input size of the neural network.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.NNBase.num_outputs">
+<em class="property">property </em><code class="sig-name descname">num_outputs</code><a class="headerlink" href="#common.models.NNBase.num_outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains the output size of the neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>int</em> – The output size of the neural network.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="common.models.RNNBase">
+<em class="property">class </em><code class="sig-prename descclassname">common.models.</code><code class="sig-name descname">RNNBase</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/common/models/rnn.html#RNNBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.RNNBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">common.models.base_nn.NNBase</span></code></p>
+<p>The base RNN neural network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_inputs</strong> (<em>int</em>) – The input size.</p></li>
+<li><p><strong>num_outputs</strong> (<em>int</em>) – The output size.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em><em>, </em><em>optional</em>) – The hidden size of the neural network, defaults to 64.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="common.models.RNNBase._createLayers">
+<code class="sig-name descname">_createLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/models/rnn.html#RNNBase._createLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.RNNBase._createLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the network layers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.RNNBase._initLayers">
+<code class="sig-name descname">_initLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/models/rnn.html#RNNBase._initLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.RNNBase._initLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the network layers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>nn.init.kaiming_normal_() are recommanded to init the layers with ‘relu’ as the activation.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.RNNBase.forward">
+<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span><span class="p">:</span> <span class="n">torch.Tensor</span></em>, <em class="sig-param"><span class="n">hidden_states</span><span class="p">:</span> <span class="n">torch.Tensor</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>torch.Tensor<span class="p">, </span>torch.Tensor<span class="p">]</span><a class="reference internal" href="../_modules/common/models/rnn.html#RNNBase.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.RNNBase.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>The foward function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> (<em>torch.Tensor</em>) – The input tensor to forward.</p></li>
+<li><p><strong>hidden_states</strong> (<em>torch.Tensor</em>) – The hidden state tensor from the previous process.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><em>(torch.Tensor, torch.Tensor)</em> – Returns the output tensor after the forward operation and the hidden state for next forward process.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.RNNBase.initHiddenStates">
+<code class="sig-name descname">initHiddenStates</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; torch.Tensor<a class="reference internal" href="../_modules/common/models/rnn.html#RNNBase.initHiddenStates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.RNNBase.initHiddenStates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the hidden_states on the same device as model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>torch.Tensor</em> – The initial hidden_states.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.RNNBase.is_recurrent">
+<em class="property">property </em><code class="sig-name descname">is_recurrent</code><a class="headerlink" href="#common.models.RNNBase.is_recurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the model is recurrent or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>bool</em> – whether the model is recurrent or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="common.models.RNNBase.recurrent_hidden_size">
+<em class="property">property </em><code class="sig-name descname">recurrent_hidden_size</code><a class="headerlink" href="#common.models.RNNBase.recurrent_hidden_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtains the recurrent hidden size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>int</em> – The hidden size of the recurrent nn.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="common.models.initNetParams">
+<code class="sig-prename descclassname">common.models.</code><code class="sig-name descname">initNetParams</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">module</span><span class="p">:</span> <span class="n">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="n">weight_init_fn</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>None<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">bias_init_fn</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span><span class="p">…</span><span class="p">]</span><span class="p">, </span>None<span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">weight_kwargs</span></em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/common/models/utils.html#initNetParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#common.models.initNetParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the parameters in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module</strong> (<em>nn.Module</em>) – The layer/network module.</p></li>
+<li><p><strong>weight_init_fn</strong> (<em>function</em>) – The function to initialize the weights.</p></li>
+<li><p><strong>bias_init_fn</strong> (<em>function</em>) – The function to initialize the bias.</p></li>
+<li><p><strong>weight_kwargs</strong> – The keyword arguments for the function <cite>weight_init_fn</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Joy Jiang.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

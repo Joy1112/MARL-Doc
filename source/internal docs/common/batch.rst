@@ -1,0 +1,141 @@
+=====
+Batch
+=====
+
+Class ``Batch`` is the internal data structure with the characteristics of both ``dict`` and ``tensor``.
+
+It is designed to store the multi-types (``numpy.ndarray, torch.Tensor``, etc.) of data obtained from the interaction with the environment.
+
+Meanwhile, it is used to package the data for transfer between clients and servers as well.
+
+.. Note:: we design the ``Batch`` with reference to `thu-ml/tianshou <https://github.com/thu-ml/tianshou>`_.
+
+
+Basic Usages
+============
+
+How to construct a new ``Batch`` instance
+-----------------------------------------
+
+There are two modes of the construction of ``Batch``.
+
+One is to create an new ``Batch`` instance of a specified size from a given ``sample_data``,
+and the other is to create it directly with all the data.
+
+Mode ``init_type = 'sample_data'``
+++++++++++++++++++++++++++++++++++
+
+.. important:: The arguments ``max_size, sample_data, unsqueeze`` are required in this case.
+               Besides, All the values in the ``sample_data`` must can be converted to an ``array``.
+
+The construction of ``Batch`` will return a new instance with size = ``max_size`` which contains the keys in ``sample_data`` and all the values will be the default value(0, None, etc.).
+
+When the argument ``unsqueeze = True``, all the values in the new instance will be expanded in the first dimension.
+
+
+.. code-block:: python
+    :caption: Construct Batch from the given ``sample_data``
+
+    >>> # unsqueeze = False
+    >>> batch = Batch(init_type='sample_data',
+    ...               max_size=3,
+    ...               sample_data={'a': torch.Tensor([1, 2]),
+    ...                            'b': np.array([[1, 2]]),
+    ...                            'c': [1, 2]})
+    >>> print(batch)
+    Batch(
+        a: tensor([0., 0., 0.]),
+        b: array([[0, 0],
+                  [0, 0],
+                  [0, 0]]),
+        c: array([0, 0, 0]),
+    )
+
+    #----------------------------------------------------------------
+    >>> # unsqueeze = True
+    >>> batch = Batch(init_type='sample_data',
+    ...               max_size=3,
+    ...               sample_data={'a': torch.Tensor([1, 2]),
+    ...                            'b': np.array([[1, 2]]),
+    ...                            'c': [1, 2]},
+    ...               unsqueeze=True)
+    >>> print(batch)
+    Batch(
+        a: tensor([[0., 0.],
+                   [0., 0.],
+                   [0., 0.]]),
+        b: array([[[0, 0]],
+                  [[0, 0]],
+                  [[0, 0]]]),
+        c: array([[0, 0],
+                  [0, 0],
+                  [0, 0]]),
+    )
+
+
+Mode ``init_type = 'whole_data'``
+++++++++++++++++++++++++++++++++++
+
+As opposed to the previous, here batch is used only as a storage carrier for the given data ``batch_dict`` or ``**kwargs``.
+
+By default, ``Batch`` only keeps the reference to the given data, but it can alse support data copying by set argument ``copy = True``.
+
+
+.. code-block:: python
+    :caption: Construct Batch from the given data
+
+    >>> # directly passing a dict object
+    >>> batch = Batch({'a': torch.Tensor([1, 2]),
+    ...                'b': np.array([[1, 2]]),
+    ...                'c': [1, 2],
+    ...                'd': 1,
+    ...                'e': '12',
+    ...                'f': {'f1': 1}})
+    >>> print(batch)
+    Batch(
+        a: tensor([1., 2.]),
+        b: array([[1, 2]]),
+        c: array([1, 2]),
+        d: 1,
+        e: '12',
+        f: Batch(
+               f1: 1,
+           ),
+    )
+    
+    #----------------------------------------------------------------
+    >>> # passing a list/tuple of dict/Batch (i.e. BatchSet)
+    >>> # the missing keys will be filled with the default value
+    >>> batch = Batch([{'a': 1.0, 'b': np.array([1])},
+    ...                {'a': 2.0, 'b': np.array([2]), 'c': 'hello'}])
+    >>> print(batch)
+    Batch(
+        a: array([1., 2.]),
+        b: array([[1],
+                  [2]]),
+        c: array([None, 'hello'], dtype=object),
+    )
+    
+    #----------------------------------------------------------------
+    >>> # construct a Batch with keyword arguments
+    >>> batch = Batch(a=torch.Tensor([1]), b=np.array([1]), c=[None])
+    >>> print(batch)
+    Batch(
+        a: tensor([1.]),
+        b: array([1]),
+        c: array([None], dtype=object),
+    )
+    
+    #----------------------------------------------------------------
+    >>> # conbining keyword arguments and batch_dict works fine as well
+    >>> batch = Batch({'a': torch.Tensor([1]), 'b': np.array([1])}, c=[None])
+    >>> print(batch)
+    Batch(
+        a: tensor([1.]),
+        b: array([1]),
+        c: array([None], dtype=object),
+    )
+
+
+Data Manipulation
+-----------------
