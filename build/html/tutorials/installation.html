@@ -177,6 +177,8 @@ git clone --recursive -b dev https://github.com/Joy1112/MARL.git
 </div>
 <div class="section" id="running-environments-configuration">
 <h2>Running Environments Configuration<a class="headerlink" href="#running-environments-configuration" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.anaconda.com/">Anaconda3</a> is recommended to manage your environment.</p>
+<p>First, install the dependencies:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda env create -f environment.yaml
 <span class="k">while</span> <span class="nb">read</span> requirement<span class="p">;</span> <span class="k">do</span> conda install --yes <span class="nv">$requirement</span> <span class="o">||</span> pip install <span class="nv">$requirement</span><span class="p">;</span> <span class="k">done</span> &lt; requirements.txt
 </pre></div>
@@ -188,6 +190,8 @@ git clone --recursive -b dev https://github.com/Joy1112/MARL.git
 <div class="section" id="starcraft-ii-installation">
 <h3>StarCraft II Installation<a class="headerlink" href="#starcraft-ii-installation" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh src/envs/starcraft_II/install_sc2.sh
+pip install third_party/smac/
+ln -s -F third_party/StarCraftII ~/
 </pre></div>
 </div>
 </div>

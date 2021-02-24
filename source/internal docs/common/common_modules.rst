@@ -2,6 +2,6 @@ Common
 ============
 
 .. toctree::
-   :maxdepth: 6
+   :maxdepth: 3
 
    common.Batch <batch>

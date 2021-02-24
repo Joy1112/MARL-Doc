@@ -14,6 +14,10 @@ Downloads
 Running Environments Configuration
 ==================================
 
+`Anaconda3 <https://www.anaconda.com/>`_ is recommended to manage your environment.
+
+First, install the dependencies:
+
 .. code-block:: bash
 
     conda env create -f environment.yaml
@@ -33,3 +37,5 @@ StarCraft II Installation
 .. code-block:: bash
 
     sh src/envs/starcraft_II/install_sc2.sh
+    pip install third_party/smac/
+    ln -s -F third_party/StarCraftII ~/
